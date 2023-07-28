@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+/.idea.IcoJam2023.iml
+# Datasource local storage ignored files
+/../../../../../../:\Programming\IcoJam2023\.idea\.idea.IcoJam2023\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
