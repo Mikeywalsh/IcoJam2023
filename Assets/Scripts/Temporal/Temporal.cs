@@ -6,18 +6,22 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     protected int CurrentFrame;
     protected int LockedEnd = -1;
 
+    private bool _reversing;
+
     protected virtual void Start()
     {
     }
     
-    public void UpdateTemporalState()
+    public void UpdateTemporalState(int currentFrame, bool reversing)
     {
+        _reversing = reversing;
+        
         if (!gameObject.activeSelf)
         {
             return;
         }
         
-        if (LockedEnd > CurrentFrame)
+        if (LockedEnd > CurrentFrame || reversing)
         {
             SetState(TemporalBuffer[CurrentFrame]);
         }
@@ -26,12 +30,13 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
             TemporalBuffer[CurrentFrame] = GetState();
         }
 
-        CurrentFrame++;
+        CurrentFrame = currentFrame;
     }
 
     public void ResetTemporal()
     {
         CurrentFrame = 0;
+        _reversing = false;
         SetState(TemporalBuffer[0]);
     }
 

@@ -14,4 +14,14 @@ public class PlayerAnimationController : MonoBehaviour
     {
         _animator.SetBool(IsRunningHash, value);
     }
+
+    public void PauseAnimations()
+    {
+        _animator.speed = 0;
+    }
+    
+    public void ResumeAnimations()
+    {
+        _animator.speed = 1;
+    }
 }
