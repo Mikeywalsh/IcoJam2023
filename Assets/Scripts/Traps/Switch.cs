@@ -11,7 +11,7 @@ namespace Traps
         public Material OnMaterial;
         public Material OffMaterial;
         
-        private void Start()
+        protected override void Start()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
         }
