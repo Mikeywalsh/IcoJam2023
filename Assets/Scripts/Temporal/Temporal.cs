@@ -53,7 +53,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
         LockedEnd = CurrentFrame;
     }
 
-    public T[] CopyBuffer()
+    public virtual T[] CopyBuffer()
     {
         var copiedBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
         TemporalBuffer.CopyTo(copiedBuffer, 0);

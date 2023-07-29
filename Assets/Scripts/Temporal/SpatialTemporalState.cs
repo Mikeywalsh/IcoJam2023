@@ -12,4 +12,9 @@ public record SpatialTemporalState : TemporalState
         Rotation = rotation;
         Scale = scale;
     }
+    
+    public SpatialTemporalState CloneState()
+    {
+        return new (Position, Rotation, Scale);
+    }
 }
