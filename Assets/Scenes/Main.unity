@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2855633ab2919a43bcfe41e7cc63734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PastPlayerTemporalPrefab: {fileID: 5987913440163004284, guid: 828fe7680cad31a40841377d62b0b0b7,
+    type: 3}
 --- !u!4 &143747505
 Transform:
   m_ObjectHideFlags: 0
@@ -1008,9 +1010,10 @@ GameObject:
   - component: {fileID: 1120393659}
   - component: {fileID: 1120393660}
   - component: {fileID: 1120393661}
+  - component: {fileID: 1120393662}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Temporal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1187,6 +1190,18 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1120393662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120393653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95be510b7c234d47b731370cacd1bac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0

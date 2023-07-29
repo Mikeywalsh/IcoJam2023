@@ -2,4 +2,5 @@
 {
     void UpdateTemporalState();
     void ResetTemporal();
+    void SetActive(bool value);
 }

@@ -2,12 +2,11 @@ using UnityEngine;
 
 public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalState
 {
-    private const int BUFFER_SIZE = TemporalManager.MAX_LEVEL_FRAMES;
-
-    private readonly T[] _temporalBuffer = new T[BUFFER_SIZE];
-
+    protected T[] TemporalBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
     protected int CurrentFrame;
     protected int LockedEnd;
+    
+    
 
     protected virtual void Start()
     {
@@ -15,13 +14,18 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     
     public void UpdateTemporalState()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+        
         if (LockedEnd > CurrentFrame)
         {
-            SetState(_temporalBuffer[CurrentFrame]);
+            SetState(TemporalBuffer[CurrentFrame]);
         }
         else
         {
-            _temporalBuffer[CurrentFrame] = GetState();
+            TemporalBuffer[CurrentFrame] = GetState();
         }
 
         CurrentFrame++;
@@ -29,15 +33,27 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     public void ResetTemporal()
     {
-        SetState(_temporalBuffer[0]);
         CurrentFrame = 0;
+        SetState(TemporalBuffer[0]);
+    }
+
+    public void SetActive(bool value)
+    {
+        gameObject.SetActive(value);
     }
 
     protected abstract T GetState();
     protected abstract void SetState(T state);
 
-    public void OnInteractedWith()
+    public virtual void OnInteractedWith()
     {
         LockedEnd = CurrentFrame;
+    }
+
+    public T[] CopyBuffer()
+    {
+        var copiedBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
+        TemporalBuffer.CopyTo(copiedBuffer, 0);
+        return copiedBuffer;
     }
 }
