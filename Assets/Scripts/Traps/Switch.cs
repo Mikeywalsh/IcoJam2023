@@ -21,7 +21,6 @@ namespace Traps
             _meshRenderer.material = Triggered ? OnMaterial : OffMaterial;
         }
 
-        // Make a collision map to not be triggered by projectiles
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<ITemporal>() == null)

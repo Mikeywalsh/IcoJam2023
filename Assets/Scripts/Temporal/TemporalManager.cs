@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
@@ -38,6 +39,8 @@ public class TemporalManager : MonoBehaviour
 
             _allTemporals.Add(temporalGameObject);
         }
+
+        _allTemporals = _allTemporals.OrderBy(temporal => temporal.ExecutionOrder()).ToList();
     }
 
     private void FixedUpdate()

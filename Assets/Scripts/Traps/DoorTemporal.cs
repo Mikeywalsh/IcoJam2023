@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Traps
 {
-    public class Door : DependantBoolTemporal
+    public class DoorTemporal : DependantBoolTemporal
     {
         private Tween _rightTween;
         private Tween _leftTween;
         private bool _open;
+
+        public override int ExecutionOrder() => 1;
 
         private void FixedUpdate()
         {

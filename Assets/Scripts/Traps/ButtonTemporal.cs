@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Traps
 {
-    public class Button : BoolTemporal
+    public class ButtonTemporal : BoolTemporal
     {
         private MeshRenderer _meshRenderer;
 
@@ -24,6 +24,10 @@ namespace Traps
         // Make a collision map to not be triggered by projectiles
         private void OnTriggerEnter(Collider other)
         {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
             if (other.gameObject.GetComponent<ITemporal>() == null)
             {
                 return;
@@ -35,6 +39,10 @@ namespace Traps
 
         private void OnTriggerStay(Collider other)
         {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
             if (other.gameObject.GetComponent<ITemporal>() == null)
             {
                 return;
@@ -45,6 +53,10 @@ namespace Traps
 
         private void OnTriggerExit(Collider other)
         {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
             if (other.gameObject.GetComponent<ITemporal>() == null)
             {
                 return;

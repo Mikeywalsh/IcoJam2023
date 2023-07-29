@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5983972652689549479}
   - component: {fileID: 6554495255063103496}
   - component: {fileID: 2580447179896346238}
-  - component: {fileID: 1502878343615366647}
+  - component: {fileID: -8094678969879450906}
   m_Layer: 0
   m_Name: Button
   m_TagString: Temporal
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}
---- !u!114 &1502878343615366647
+--- !u!114 &-8094678969879450906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

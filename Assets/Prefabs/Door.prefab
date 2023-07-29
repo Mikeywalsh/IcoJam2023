@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 3597451015993461630}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Temporal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,6 +256,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ada684a3e0947939467fe630a9edbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boolTemporals:
-  - {fileID: 0}
-  - {fileID: 0}
+  Triggered: 0
+  BoolTemporals: []

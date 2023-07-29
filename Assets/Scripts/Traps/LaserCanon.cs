@@ -5,11 +5,13 @@ using UnityEngine;
 
 namespace Traps
 {
-    public class LaserCannon : DependantBoolTemporal
+    public class LaserCannonTemporal : DependantBoolTemporal
     {
         private List<LineRenderer> _lineRenderers;
         private List<Light> _pointLights;
 
+        public override int ExecutionOrder() => 1;
+        
         protected override void Start()
         {
             _lineRenderers = GetComponentsInChildren<LineRenderer>(true).ToList();

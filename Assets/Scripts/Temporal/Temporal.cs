@@ -8,6 +8,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     protected bool Reversing;
 
+    public virtual int ExecutionOrder() => 0;
+
     protected virtual void Start()
     {
     }
@@ -22,7 +24,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
             return;
         }
         
-        if (LockedEnd > CurrentFrame || reversing)
+        if (IsLocked() || reversing)
         {
             SetState(TemporalBuffer[CurrentFrame]);
         }
@@ -32,6 +34,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
         }
 
     }
+
+    public bool IsLocked() => LockedEnd > CurrentFrame;
 
     public virtual void ResetTemporal()
     {
