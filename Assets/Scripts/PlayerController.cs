@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PlayerAnimationController))]
 public class PlayerController : MonoBehaviour
 {
     public MovementSettings PlayerMovementSettings;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool IsDashing { get; private set; }
     public GroundedState GroundedState { get; private set; }
     
+    private PlayerAnimationController _animationController;
     private bool _itemSelectionBlocked;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
@@ -34,13 +37,12 @@ public class PlayerController : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
+        _animationController = GetComponent<PlayerAnimationController>();
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
         InputActionsManager.InputActions.Player.Jump.performed += _ => JumpInput = true;
         InputActionsManager.InputActions.Player.Jump.canceled += _ => JumpInput = false;
-
-
 
         // InputActionsManager.InputActions.Player.Roll.performed += _ => RollInput = true;
         // InputActionsManager.InputActions.Player.Roll.canceled += _ => RollInput = false;
@@ -76,6 +78,9 @@ public class PlayerController : MonoBehaviour
         RefreshMovementDirection();
 
         Move(Time.deltaTime);
+
+        var isRunning = HorizontalSpeed > float.Epsilon;
+        _animationController.SetIsRunning(isRunning);
 
         var newGroundedState = _characterController.isGrounded ? GroundedState.GROUNDED : GroundedState.AIRBORNE;
         SetGroundedState(newGroundedState);
