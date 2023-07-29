@@ -1,6 +1,6 @@
 ﻿public interface ITemporal
 {
-    void UpdateTemporalState();
+    void UpdateTemporalState(int currentFrame, bool reversing);
     void ResetTemporal();
     void SetActive(bool value);
 }

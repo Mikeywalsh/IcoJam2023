@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsDashing { get; private set; }
     public GroundedState GroundedState { get; private set; }
-    
+
     private PlayerAnimationController _animationController;
     private bool _itemSelectionBlocked;
     private Action _planeTransitionCallback;
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     private float _useHeldItemCooldown;
     private float _verticalAcceleration;
     private Vector3 _targetLookDirection = Vector3.back;
+    private Vector3 _startingTargetLookDirection = Vector3.back;
+    private bool _inputDisabled;
 
     private void Start()
     {
@@ -73,14 +75,20 @@ public class PlayerController : MonoBehaviour
         MoveDirection = new Vector2(movement.normalized.x, movement.normalized.z);
     }
 
+    private void Update()
+    {
+        var isRunning = HorizontalSpeed > float.Epsilon;
+        _animationController.SetIsRunning(isRunning);
+    }
+    
     private void FixedUpdate()
     {
+        if (_inputDisabled)
+            return;
+        
         RefreshMovementDirection();
 
         Move(Time.deltaTime);
-
-        var isRunning = HorizontalSpeed > float.Epsilon;
-        _animationController.SetIsRunning(isRunning);
 
         var newGroundedState = _characterController.isGrounded ? GroundedState.GROUNDED : GroundedState.AIRBORNE;
         SetGroundedState(newGroundedState);
@@ -148,7 +156,7 @@ public class PlayerController : MonoBehaviour
         var accelerationMultiplier =
             GroundedState == GroundedState.AIRBORNE && VerticalSpeed < -float.Epsilon ? 1.5f : 1f;
         _verticalAcceleration = -PlayerMovementSettings.GravityStrength * accelerationMultiplier;
-        
+
         switch (GroundedState)
         {
             case GroundedState.GROUNDED
@@ -161,7 +169,7 @@ public class PlayerController : MonoBehaviour
                     PlayerMovementSettings.MaxFallSpeedAir);
                 break;
         }
-        
+
         if (JumpInput)
         {
             TryJump();
@@ -183,7 +191,7 @@ public class PlayerController : MonoBehaviour
         {
             _targetLookDirection = horizontalMovementVector;
         }
-        
+
         var targetRotation = Quaternion.LookRotation(_targetLookDirection, Vector3.up);
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, 15 * timeStep);
     }
@@ -268,12 +276,31 @@ public class PlayerController : MonoBehaviour
 
         var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
         temporal.OnInteractedWith();
-        
+
         var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
         var pushForce = 4;
         otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
     }
 
+    // Used by temporal manager to disable input when reversing level
+    public void DisableInputAndAnimations()
+    {
+        _inputDisabled = true;
+        _animationController.PauseAnimations();
+    }
+
+    public void EnableInputAndAnimations()
+    {
+        _inputDisabled = false;
+        _animationController.ResumeAnimations();
+    }
+
+    public void OnResetTemporal()
+    {
+        EnableInputAndAnimations();
+        _targetLookDirection = _startingTargetLookDirection;
+    }
+    
     public void Die()
     {
         Debug.Log("player died");
