@@ -274,6 +274,11 @@ public class PlayerController : MonoBehaviour
         otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
     }
 
+    public void Die()
+    {
+        Debug.Log("player died");
+    }
+
     public void OnDrawGizmos()
     {
         var cameraVector = transform.position - Camera.main.transform.position;

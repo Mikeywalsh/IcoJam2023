@@ -1,13 +1,12 @@
-﻿using Temporal;
+﻿using System.Collections.Generic;
+using Temporal;
 using UnityEngine;
 
 namespace Traps
 {
-    [RequireComponent(typeof(BoolTemporal))]
-    public class Switch : MonoBehaviour
+    public class Switch : BoolTemporal
     {
         private MeshRenderer _meshRenderer;
-        private BoolTemporal _boolTemporal;
 
         public Material OnMaterial;
         public Material OffMaterial;
@@ -15,12 +14,11 @@ namespace Traps
         private void Start()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
-            _boolTemporal = GetComponent<BoolTemporal>();
         }
         
         private void FixedUpdate()
         {
-            _meshRenderer.material = _boolTemporal.Triggered ? OnMaterial : OffMaterial;
+            _meshRenderer.material = Triggered ? OnMaterial : OffMaterial;
         }
 
         // Make a collision map to not be triggered by projectiles
@@ -31,8 +29,8 @@ namespace Traps
                 return;
             }
             
-            _boolTemporal.Toggle();
-            _boolTemporal.OnInteractedWith();
+            Toggle();
+            OnInteractedWith();
         }
     }
 }

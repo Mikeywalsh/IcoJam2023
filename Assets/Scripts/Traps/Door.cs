@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Temporal;
 using UnityEngine;
 
 namespace Traps
 {
-    public class Door : MonoBehaviour
+    public class Door : DependantBoolTemporal
     {
-        [SerializeField]
-        private List<BoolTemporal> _boolTemporals;
-
-        private bool _open;
         private Tween _rightTween;
         private Tween _leftTween;
+        private bool _open;
 
         private void FixedUpdate()
         {
-            if (_boolTemporals.TrueForAll(temporal => temporal.Triggered))
+            if (Triggered)
             {
                 Open();
             } else

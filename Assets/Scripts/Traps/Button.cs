@@ -4,24 +4,21 @@ using UnityEngine;
 
 namespace Traps
 {
-    [RequireComponent(typeof(BoolTemporal))]
-    public class Button : MonoBehaviour
+    public class Button : BoolTemporal
     {
         private MeshRenderer _meshRenderer;
-        private BoolTemporal _boolTemporal;
 
         public Material OnMaterial;
         public Material OffMaterial;
         
-        private void Start()
+        protected override void Start()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
-            _boolTemporal = GetComponent<BoolTemporal>();
         }
 
         private void FixedUpdate()
         {
-            _meshRenderer.material = _boolTemporal.Triggered ? OnMaterial : OffMaterial;
+            _meshRenderer.material = Triggered ? OnMaterial : OffMaterial;
         }
 
         // Make a collision map to not be triggered by projectiles
@@ -32,8 +29,8 @@ namespace Traps
                 return;
             }
             
-            _boolTemporal.TurnOn();
-            _boolTemporal.OnInteractedWith();
+            TurnOn();
+            OnInteractedWith();
         }
 
         private void OnTriggerStay(Collider other)
@@ -43,7 +40,7 @@ namespace Traps
                 return;
             }
             
-            _boolTemporal.OnInteractedWith();
+            OnInteractedWith();
         }
 
         private void OnTriggerExit(Collider other)
@@ -53,8 +50,8 @@ namespace Traps
                 return;
             }
 
-            _boolTemporal.OnInteractedWith();
-            _boolTemporal.TurnOff();
+            OnInteractedWith();
+            TurnOff();
         }
     }
 }

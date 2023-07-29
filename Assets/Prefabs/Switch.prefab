@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2872274834461368758}
   - component: {fileID: 1363181744015966737}
   - component: {fileID: 6141260776381444098}
-  - component: {fileID: 6351721274547291765}
   - component: {fileID: 7279017001300002868}
   m_Layer: 0
   m_Name: Switch
@@ -109,20 +108,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}
---- !u!114 &6351721274547291765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314047786112627708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 159b4887594e48a299e099ee3379904a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Triggered: 1
-  WasToggledThisFrame: 0
 --- !u!114 &7279017001300002868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,5 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dba3c78923644fd80052490628547eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Triggered: 0
   OnMaterial: {fileID: 2100000, guid: 74117f645ca87544896e430b75e9a316, type: 2}
   OffMaterial: {fileID: 2100000, guid: a4b62a69d54e80347bd546999c6d4b9e, type: 2}

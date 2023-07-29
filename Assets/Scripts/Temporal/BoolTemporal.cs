@@ -1,15 +1,10 @@
-﻿using System;
+﻿using UnityEngine;
 
 namespace Temporal
 {
-    public class BoolTemporal : Temporal<BoolTemporalState>
+    public abstract class BoolTemporal : Temporal<BoolTemporalState>
     {
         public bool Triggered;
-
-        protected override void Start()
-        {
-            Array.Fill(TemporalBuffer, new BoolTemporalState(false));
-        }
 
         protected override BoolTemporalState GetState()
         {
@@ -29,6 +24,7 @@ namespace Temporal
 
         public void TurnOn()
         {
+            Debug.Log("triggered");
             Triggered = true;
         }
 
