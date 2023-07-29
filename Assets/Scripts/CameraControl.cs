@@ -38,7 +38,7 @@ public class CameraControl : MonoBehaviour
         _currentShakeDuration = duration;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!_cameraDragButtonDown)
         {

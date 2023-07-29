@@ -12,7 +12,6 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     
     public void UpdateTemporalState()
     {
-    
         if (!gameObject.activeSelf)
         {
             return;

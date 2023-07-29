@@ -6,8 +6,11 @@ using UnityEngine;
 public class TemporalManager : MonoBehaviour
 {
     public const int FRAMES_PER_SECOND = 50;
-    public const int LEVEL_LENGTH_SECONDS = 60;
+    public const int LEVEL_LENGTH_SECONDS = 5;
     public const int MAX_LEVEL_FRAMES = FRAMES_PER_SECOND * LEVEL_LENGTH_SECONDS;
+
+    private const int SLOWDOWN_FRAMES = 50;
+    private const int SLOWDOWN_START = MAX_LEVEL_FRAMES - SLOWDOWN_FRAMES;
 
     public PastPlayerTemporal PastPlayerTemporalPrefab;
     private PresentPlayerTemporal _presentPlayer;
@@ -34,6 +37,16 @@ public class TemporalManager : MonoBehaviour
     
     private void FixedUpdate()
     {
+        var slowDownReached = _currentFrame >= SLOWDOWN_START - 1;
+
+        if (slowDownReached)
+        {
+            var framesIntoSlowDown = _currentFrame - SLOWDOWN_START - 1;
+
+            var newTimeScale = math.lerp(1, .2f, framesIntoSlowDown / (float)SLOWDOWN_FRAMES);
+            Time.timeScale = newTimeScale;
+        }
+        
         var levelEndReached = _currentFrame >= MAX_LEVEL_FRAMES - 1;
         if (levelEndReached)
         {
