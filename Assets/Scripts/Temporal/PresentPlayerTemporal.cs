@@ -19,7 +19,7 @@ public class PresentPlayerTemporal : PlayerTemporal
         _playerController.OnResetTemporal();
     }
 
-    protected override void SetState(SpatialTemporalState state)
+    protected override void SetState(PlayerTemporalState state)
     {
         // Present players should only have their state set on the very first frame upon level reset or when reversing
         if (CurrentFrame == 0 || Reversing)

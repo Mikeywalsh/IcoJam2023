@@ -5,7 +5,7 @@ public class PastPlayerTemporal : PlayerTemporal
     // If the player presses the reset button early, we need this so we can despawn the past player in the same frame
     private int _lastFrame;
 
-    public void Initialize(SpatialTemporalState[] playerBuffer, int lastFrame)
+    public void Initialize(PlayerTemporalState[] playerBuffer, int lastFrame)
     {
         TemporalBuffer = playerBuffer;
         _lastFrame = lastFrame;
@@ -14,13 +14,13 @@ public class PastPlayerTemporal : PlayerTemporal
         LockedEnd = TemporalManager.MAX_LEVEL_FRAMES - 1;
     }
     
-    protected override SpatialTemporalState GetState()
+    protected override PlayerTemporalState GetState()
     {
         // No logic here, past player should never write its state to buffer
         throw new NotSupportedException();
     }
 
-    protected override void SetState(SpatialTemporalState state)
+    protected override void SetState(PlayerTemporalState state)
     {
         if (CurrentFrame >= _lastFrame - 1)
         {
