@@ -1201,7 +1201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9718a504a02020c4e9c2fbf45213a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PostProcessingVolume: {fileID: 0}
+  PostProcessingVolume: {fileID: 1160234426}
+  ColorFilterColor: {r: 1, g: 0.6178764, b: 0.5424528, a: 1}
   PlayerController: {fileID: 1120393659}
   ShakeDecreaseFactor: 0
 --- !u!1 &1108110722
