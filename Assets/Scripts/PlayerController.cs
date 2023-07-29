@@ -78,8 +78,6 @@ public class PlayerController : MonoBehaviour
 
         var newGroundedState = _characterController.isGrounded ? GroundedState.GROUNDED : GroundedState.AIRBORNE;
         SetGroundedState(newGroundedState);
-
-        Debug.Log(newGroundedState);
     }
 
     private void UpdateHorizontalSpeed(float timeStep)
@@ -245,6 +243,30 @@ public class PlayerController : MonoBehaviour
     //     RollPerformed?.Invoke(this, args);
     // }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        InteractWithRigidbody(other.rigidbody);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        InteractWithRigidbody(other.rigidbody);
+    }
+
+    private void InteractWithRigidbody(Rigidbody otherRigidbody)
+    {
+        if (otherRigidbody == null)
+        {
+            return;
+        }
+
+        var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
+        temporal.OnInteractedWith();
+        
+        var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
+        var pushForce = 4;
+        otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
+    }
 
     public void OnDrawGizmos()
     {
