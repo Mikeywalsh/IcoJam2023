@@ -1009,6 +1009,7 @@ GameObject:
   - component: {fileID: 1120393660}
   - component: {fileID: 1120393661}
   - component: {fileID: 1120393662}
+  - component: {fileID: 1120393663}
   m_Layer: 0
   m_Name: Player
   m_TagString: Temporal
@@ -1149,6 +1150,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95be510b7c234d47b731370cacd1bac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1120393663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120393653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7252c1dca6642deb8e6b62f04fae151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1160234425
