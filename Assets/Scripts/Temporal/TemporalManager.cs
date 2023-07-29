@@ -6,7 +6,7 @@ using UnityEngine;
 public class TemporalManager : MonoBehaviour
 {
     public const int FRAMES_PER_SECOND = 50;
-    public const int LEVEL_LENGTH_SECONDS = 5;
+    public const int LEVEL_LENGTH_SECONDS = 15;
     public const int MAX_LEVEL_FRAMES = FRAMES_PER_SECOND * LEVEL_LENGTH_SECONDS;
 
     public PastPlayerTemporal PastPlayerTemporalPrefab;
