@@ -17,7 +17,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
         Reversing = reversing;
         CurrentFrame = currentFrame;
         
-        if (!gameObject.activeSelf)
+        if (!gameObject.activeSelf && !reversing)
         {
             return;
         }

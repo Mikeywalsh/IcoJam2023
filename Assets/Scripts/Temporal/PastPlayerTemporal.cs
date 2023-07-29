@@ -24,11 +24,22 @@ public class PastPlayerTemporal : PlayerTemporal
     {
         if (CurrentFrame >= _lastFrame - 1)
         {
-            // Remove this past player
-            SetActive(false);
+            if (!Reversing)
+            {
+                // Remove this past player
+                SetActive(false);
+            }
             return;
         }
         
-        base.SetState(state);
+        if (CurrentFrame < _lastFrame && Reversing)
+        {
+            SetActive(true);
+        }
+
+        if (gameObject.activeSelf)
+        {
+            base.SetState(state);
+        }
     }
 }
