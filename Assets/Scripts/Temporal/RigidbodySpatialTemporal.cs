@@ -35,7 +35,7 @@ public class RigidbodySpatialTemporal : SpatialTemporal
 
     private void InteractWithOtherRigidBodyTemporal(RigidbodySpatialTemporal other)
     {
-        if (other == null)
+        if (other == null || Reversing)
             return;
 
         var thisRigidbodyStationary = _rigidbody.velocity.magnitude < float.Epsilon;

@@ -85,27 +85,34 @@ public class TemporalManager : MonoBehaviour
         }
 
         _reversing = false;
-        _presentPlayer.GetComponent<PlayerController>().EnableInputAndAnimations();
         _currentFrame = 0;
     }
 
     public void StartReset()
     {
+        if (_currentFrame == 0 || _reversing)
+        {
+            return;
+        }
+        
         Time.timeScale = 1;
         _reversing = true;
+        _currentFrame -= 1;
         _frameAtReset = _currentFrame;
 
-        _presentPlayer.GetComponent<PlayerController>().DisableInputAndAnimations();
         var timeToReverse = 2f;
+        
+        Camera.main!.GetComponent<CameraControl>().OnLevelReverse(timeToReverse);
         DOTween.To(() => _currentFrame, x => _currentFrame = x, 0, timeToReverse)
             .OnUpdate(() =>
             {
-                Debug.Log(_currentFrame);
                 foreach (var temporal in _allTemporals)
                 {
                     temporal.UpdateTemporalState(_currentFrame, true);
                 }
             })
+            .SetEase(Ease.OutQuad)
+            .SetDelay(0.4f)
             .OnComplete(OnReverseFinished);
     }
 }

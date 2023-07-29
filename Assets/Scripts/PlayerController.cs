@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private float _useHeldItemCooldown;
     private float _verticalAcceleration;
     private Vector3 _targetLookDirection = Vector3.back;
+    private Vector3 _startingTargetLookDirection = Vector3.back;
     private bool _inputDisabled;
 
     private void Start()
@@ -294,6 +295,12 @@ public class PlayerController : MonoBehaviour
         _animationController.ResumeAnimations();
     }
 
+    public void OnResetTemporal()
+    {
+        EnableInputAndAnimations();
+        _targetLookDirection = _startingTargetLookDirection;
+    }
+    
     public void OnDrawGizmos()
     {
         var cameraVector = transform.position - Camera.main.transform.position;
