@@ -2,11 +2,11 @@
 {
     public record BoolTemporalState : TemporalState
     {
-        public bool State { get; }
+        public bool Triggered { get; }
 
-        public BoolTemporalState(bool state)
+        public BoolTemporalState(bool triggered)
         {
-            State = state;
+            Triggered = triggered;
         }
     }
 }

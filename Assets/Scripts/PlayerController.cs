@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     public GroundedState GroundedState { get; private set; }
     
     private bool _itemSelectionBlocked;
-    private int _currentSelectedInventoryItemIndex = -1;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
     private Vector3 _facingDirection;

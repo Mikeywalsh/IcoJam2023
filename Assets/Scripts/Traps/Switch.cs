@@ -1,11 +1,10 @@
-﻿using System;
-using Temporal;
+﻿using Temporal;
 using UnityEngine;
 
 namespace Traps
 {
     [RequireComponent(typeof(BoolTemporal))]
-    public class Button : MonoBehaviour
+    public class Switch : MonoBehaviour
     {
         private MeshRenderer _meshRenderer;
         private BoolTemporal _boolTemporal;
@@ -18,7 +17,7 @@ namespace Traps
             _meshRenderer = GetComponent<MeshRenderer>();
             _boolTemporal = GetComponent<BoolTemporal>();
         }
-
+        
         private void FixedUpdate()
         {
             _meshRenderer.material = _boolTemporal.Triggered ? OnMaterial : OffMaterial;
@@ -32,29 +31,8 @@ namespace Traps
                 return;
             }
             
-            _boolTemporal.TurnOn();
+            _boolTemporal.Toggle();
             _boolTemporal.OnInteractedWith();
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.GetComponent<ITemporal>() == null)
-            {
-                return;
-            }
-            
-            _boolTemporal.OnInteractedWith();
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.GetComponent<ITemporal>() == null)
-            {
-                return;
-            }
-
-            _boolTemporal.OnInteractedWith();
-            _boolTemporal.TurnOff();
         }
     }
 }
