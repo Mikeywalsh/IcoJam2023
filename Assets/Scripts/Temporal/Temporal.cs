@@ -4,9 +4,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 {
     protected T[] TemporalBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
     protected int CurrentFrame;
-    protected int LockedEnd;
-    
-    
+    protected int LockedEnd = -1;
 
     protected virtual void Start()
     {
@@ -14,6 +12,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     
     public void UpdateTemporalState()
     {
+    
         if (!gameObject.activeSelf)
         {
             return;

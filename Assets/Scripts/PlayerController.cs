@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     public GroundedState GroundedState { get; private set; }
     
     private bool _itemSelectionBlocked;
-    private int _currentSelectedInventoryItemIndex = -1;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
     private Vector3 _facingDirection;
@@ -34,11 +33,13 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _characterController.detectCollisions = false;
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
         InputActionsManager.InputActions.Player.Jump.performed += _ => JumpInput = true;
         InputActionsManager.InputActions.Player.Jump.canceled += _ => JumpInput = false;
+
 
 
         // InputActionsManager.InputActions.Player.Roll.performed += _ => RollInput = true;
