@@ -24,7 +24,6 @@ namespace Temporal
 
         public void TurnOn()
         {
-            Debug.Log("triggered");
             Triggered = true;
         }
 

@@ -42,7 +42,7 @@ namespace Traps
                         lineRenderer.SetPosition(1, new Vector3(0, 0, hit.distance));
                         Debug.DrawRay(lineRenderer.transform.position, lineRenderer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
 
-                        if (hit.collider.CompareTag("Player"))
+                        if (hit.collider.gameObject.GetComponentInParent<PlayerController>())
                         {
                             var playerObject = hit.collider.gameObject.GetComponentInParent<PlayerController>();
                             playerObject.Die();
