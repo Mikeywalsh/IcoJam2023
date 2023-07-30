@@ -1,7 +1,12 @@
 ﻿using System;
+using DefaultNamespace;
+using UnityEngine;
 
 public class PastPlayerTemporal : PlayerTemporal
 {
+    [SerializeField]
+    private PastPlayerResetEffect _pastPlayerResetEffect;
+    
     // If the player presses the reset button early, we need this so we can despawn the past player in the same frame
     private int _lastFrame;
 
@@ -26,7 +31,8 @@ public class PastPlayerTemporal : PlayerTemporal
         {
             if (!Reversing)
             {
-                // Remove this past player
+                // Remove this past player and spawn effect
+                Instantiate(_pastPlayerResetEffect, transform.position, transform.rotation);
                 SetActive(false);
             }
             return;

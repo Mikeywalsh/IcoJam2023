@@ -211,7 +211,6 @@ public class PlayerController : MonoBehaviour
     {
         if (newState == GroundedState.GROUNDED && GroundedState != GroundedState.GROUNDED)
         {
-            // Don't allow player to use held items immediately after landing
             _jumpCooldown = PlayerMovementSettings.JumpCooldownGround;
         }
 
