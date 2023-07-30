@@ -8,7 +8,7 @@
         private int CooldownFrames => (int) (TemporalManager.FRAMES_PER_SECOND * CooldownSeconds);
         private int DurationFrames => (int) (TemporalManager.FRAMES_PER_SECOND * DurationSeconds);
 
-        private void Start()
+        protected override void Start()
         {
             // Buffer pre-filled
             LockedEnd = TemporalManager.MAX_LEVEL_FRAMES - 1;
