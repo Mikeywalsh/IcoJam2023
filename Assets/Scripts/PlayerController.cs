@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimationController _animationController;
     private ParticleSystem _jumpParticles;
     private TrailRenderer _dashTrailRenderer;
-    
+
     private bool _itemSelectionBlocked;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
@@ -37,9 +37,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 _targetLookDirection = Vector3.back;
     private Vector3 _startingTargetLookDirection = Vector3.back;
     private bool _inputDisabled;
-    
+
+    private Transform _currentMoveableParent;
     private bool _secondJumpAvailable;
     private bool _airborneDashAvailable;
+    private bool _reversing;
 
     private void Start()
     {
@@ -85,18 +87,34 @@ public class PlayerController : MonoBehaviour
         var isRunning = HorizontalSpeed > float.Epsilon;
         _animationController.SetIsRunning(isRunning);
     }
-    
+
     private void FixedUpdate()
     {
-        if (_inputDisabled)
+        if (_inputDisabled || _reversing)
             return;
-        
+
         RefreshMovementDirection();
 
         Move(Time.deltaTime);
 
         var newGroundedState = _characterController.isGrounded ? GroundedState.GROUNDED : GroundedState.AIRBORNE;
         SetGroundedState(newGroundedState);
+
+        var moveableMask = LayerMask.GetMask("Moveable");
+        var moveableRay = new Ray(transform.position, Vector3.down);
+        var hitMoveable = Physics.Raycast(moveableRay, out var hitInfo, 1f, moveableMask);
+
+        if (hitMoveable)
+        {
+            var moveable = hitInfo.transform;
+            transform.parent = moveable;
+            _currentMoveableParent = moveable;
+        }
+        else
+        {
+            _currentMoveableParent = null;
+            transform.parent = null;
+        }
     }
 
     private void UpdateHorizontalSpeed(float timeStep)
@@ -113,8 +131,8 @@ public class PlayerController : MonoBehaviour
                 TargetHorizontalSpeed = 0f;
                 IsDashing = false;
             }
-        } 
-        
+        }
+
         if (!IsDashing)
         {
             _dashTrailRenderer.enabled = false;
@@ -124,10 +142,9 @@ public class PlayerController : MonoBehaviour
             var acceleration = hasMovementInput
                 ? PlayerMovementSettings.HorizontalAcceleration
                 : PlayerMovementSettings.HorizontalDeceleration;
-            
+
             HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed, acceleration * timeStep);
         }
-        
     }
 
     private void UpdateVerticalSpeed(float timeStep)
@@ -136,15 +153,15 @@ public class PlayerController : MonoBehaviour
         {
             VerticalSpeed = 0f;
         }
-        
+
         var accelerationMultiplier =
             GroundedState == GroundedState.AIRBORNE && VerticalSpeed < -float.Epsilon ? 1.5f : 1f;
         _verticalAcceleration = -PlayerMovementSettings.GravityStrength * accelerationMultiplier;
 
         switch (GroundedState)
         {
-            case GroundedState.GROUNDED: 
-                 // If grounded, set speed to essentially 0 (still needs to be higher or the player floats and causes weird collider issues)
+            case GroundedState.GROUNDED:
+                // If grounded, set speed to essentially 0 (still needs to be higher or the player floats and causes weird collider issues)
                 VerticalSpeed = -PlayerMovementSettings.GravityStrength;
                 _secondJumpAvailable = false;
                 _airborneDashAvailable = true;
@@ -174,7 +191,7 @@ public class PlayerController : MonoBehaviour
         }
 
         var targetRotation = Quaternion.LookRotation(_targetLookDirection, Vector3.up);
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, 15 * timeStep);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 15 * timeStep);
     }
 
     private void TryDash()
@@ -207,7 +224,7 @@ public class PlayerController : MonoBehaviour
             _secondJumpAvailable = true;
             _animationController.Jump();
             _jumpParticles.Play();
-        } 
+        }
         else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable)
         {
             VerticalSpeed = PlayerMovementSettings.JumpSpeed;
@@ -246,46 +263,51 @@ public class PlayerController : MonoBehaviour
         InteractWithRigidbody(other.rigidbody);
     }
 
-    private Vector3 fooOrigin;
-    private Vector3 fooDirection;
-    
     private void InteractWithRigidbody(Rigidbody otherRigidbody)
     {
         if (otherRigidbody == null)
         {
             return;
         }
+        Debug.Log("WHY");
 
         var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
 
+        if (temporal == null)
+            return;
+        Debug.Log("WHY2");
+
         temporal.OnInteractedWith();
-        //
+
         // var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
-        //
-        // var layerMask = LayerMask.GetMask("Environment");
+
+        // var layerMask = LayerMask.GetMask("MO");
         // var boxWillHitEnvironment = Physics.Raycast(otherRigidbody.transform.position + (forceVector * 1.1f), forceVector, 2.2f, layerMask);
         //
-        // fooOrigin = otherRigidbody.transform.position + (forceVector * 1.1f);
-        // fooDirection = forceVector *.5f;
-        // Debug.Log(boxWillHitEnvironment);
-        // if(boxWillHitEnvironment)
-        //     return;
-        
+        // // fooOrigin = otherRigidbody.transform.position + (forceVector * 1.1f);
+        // // fooDirection = forceVector *.5f;
+        // // Debug.Log(boxWillHitEnvironment);
+        // // if(boxWillHitEnvironment)
+        // //     return;
+        // //
         // var pushForce = 4;
         // otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
-        
     }
 
     // Used by temporal manager to disable input when reversing level
     public void DisableInputAndAnimations()
     {
         _inputDisabled = true;
+        _reversing = true;
+        _currentMoveableParent = null;
+        transform.parent = null;
         _animationController.PauseAnimations();
     }
 
     public void EnableInputAndAnimations()
     {
         _inputDisabled = false;
+        _reversing = false;
         _animationController.ResumeAnimations();
     }
 
@@ -294,7 +316,7 @@ public class PlayerController : MonoBehaviour
         EnableInputAndAnimations();
         _targetLookDirection = _startingTargetLookDirection;
     }
-    
+
     public void Die()
     {
         Debug.Log("player died");
@@ -302,9 +324,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        if(!Application.isPlaying)
+        if (!Application.isPlaying)
             return;
-        
+
         var cameraPosition = _mainCamera.transform.position;
         var position = transform.position;
         var cameraVector = position - cameraPosition;
@@ -319,8 +341,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(position, -playerLeft);
         Gizmos.DrawRay(position, playerBack);
         Gizmos.DrawRay(position, -playerBack);
-        
+
         Gizmos.color = Color.magenta;
-        Gizmos.DrawRay(fooOrigin, fooDirection);
     }
 }

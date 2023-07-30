@@ -74,7 +74,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     }
 
-    public void StartedReversing()
+    public virtual void StartedReversing()
     {
         _hasStartedReversing = true;
     }
