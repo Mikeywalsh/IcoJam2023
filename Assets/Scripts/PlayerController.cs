@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public GroundedState GroundedState { get; private set; }
 
     private PlayerAnimationController _animationController;
+    private ParticleSystem _jumpParticles;
+    private TrailRenderer _dashTrailRenderer;
+    
     private bool _itemSelectionBlocked;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
@@ -44,6 +47,9 @@ public class PlayerController : MonoBehaviour
         _characterController.detectCollisions = false;
         _animationController = GetComponent<PlayerAnimationController>();
         _mainCamera = FindObjectOfType<CameraControl>();
+        _jumpParticles = GetComponentInChildren<ParticleSystem>();
+        _dashTrailRenderer = GetComponent<TrailRenderer>();
+        _dashTrailRenderer.enabled = false;
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
@@ -111,6 +117,7 @@ public class PlayerController : MonoBehaviour
         
         if (!IsDashing)
         {
+            _dashTrailRenderer.enabled = false;
             TargetHorizontalSpeed = MoveDirection.magnitude * PlayerMovementSettings.MaxHorizontalRunSpeed;
             var hasMovementInput = MoveDirection.sqrMagnitude > float.Epsilon;
 
@@ -178,6 +185,7 @@ public class PlayerController : MonoBehaviour
         }
 
         IsDashing = true;
+        _dashTrailRenderer.enabled = true;
         _animationController.Dash();
         _dashDirection = new Vector3(_facingDirection.x, 0, _facingDirection.y);
         _lastDashTime = Time.time;
@@ -198,12 +206,14 @@ public class PlayerController : MonoBehaviour
 
             _secondJumpAvailable = true;
             _animationController.Jump();
+            _jumpParticles.Play();
         } 
         else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable)
         {
             VerticalSpeed = PlayerMovementSettings.JumpSpeed;
             _secondJumpAvailable = false;
             _animationController.DoubleJump();
+            _jumpParticles.Play();
         }
     }
 
@@ -212,6 +222,7 @@ public class PlayerController : MonoBehaviour
         if (newState == GroundedState.GROUNDED && GroundedState != GroundedState.GROUNDED)
         {
             _jumpCooldown = PlayerMovementSettings.JumpCooldownGround;
+            _jumpParticles.Play();
         }
 
         if (newState == GroundedState.AIRBORNE && GroundedState != GroundedState.AIRBORNE)
