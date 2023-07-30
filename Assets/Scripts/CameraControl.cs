@@ -30,6 +30,8 @@ public class CameraControl : MonoBehaviour
     private Vector2 _startMousePos;
     private bool _dragging;
 
+    private float _cameraDragGamepadValue;
+    
     private void Start()
     {
         if (PostProcessingVolume.profile.TryGet<LensDistortion>(out var lensDistortion))
@@ -67,6 +69,9 @@ public class CameraControl : MonoBehaviour
 
         InputActionsManager.InputActions.Camera.CameraDragButton.performed += _ => _cameraDragButtonDown = true;
         InputActionsManager.InputActions.Camera.CameraDragButton.canceled += _ => _cameraDragButtonDown = false;
+        
+        InputActionsManager.InputActions.Camera.CameraDragDirection.performed += ctx => _cameraDragGamepadValue = ctx.ReadValue<Vector2>().x;
+        InputActionsManager.InputActions.Camera.CameraDragDirection.canceled += _ => _cameraDragGamepadValue = 0;
 
         var targetLookRotation =
             Quaternion.LookRotation(PlayerController.transform.position - transform.position, Vector3.up);
@@ -81,37 +86,53 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
-        if (!_cameraDragButtonDown)
+        if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
         {
-            _startMousePos = Vector2.zero;
-            _dragging = false;
+            if (!_cameraDragButtonDown)
+            {
+                _startMousePos = Vector2.zero;
+                _dragging = false;
+                UpdateCameraPosition();
+            }
+            else if (_cameraDragButtonDown)
+            {
+                if (_dragging)
+                {
+                    var horizontalDelta = (_mousePosition - _startMousePos).x;
+
+                    var horizontalMovementRatio = horizontalDelta / Screen.width;
+
+                    var rotationQuaternion = Quaternion.AngleAxis(horizontalMovementRatio * 15, Vector3.up);
+                    _offset = rotationQuaternion * _offset;
+
+                    UpdateCameraPosition();
+
+                    var targetLookRotation =
+                        Quaternion.LookRotation(PlayerController.transform.position - transform.position, Vector3.up);
+                    transform.rotation = targetLookRotation;
+                }
+                else
+                {
+                    UpdateCameraPosition();
+                    _startMousePos = _mousePosition;
+                    _dragging = true;
+                }
+            }
+
+        }
+        else if (InputActionsManager.CurrentInputScheme == InputScheme.CONTROLLER)
+        {
+            var horizontalDelta = _cameraDragGamepadValue;
+
+            var rotationQuaternion = Quaternion.AngleAxis(horizontalDelta * 2.5f, Vector3.up);
+            _offset = rotationQuaternion * _offset;
+
             UpdateCameraPosition();
+
+            var targetLookRotation =
+                Quaternion.LookRotation(PlayerController.transform.position - transform.position, Vector3.up);
+            transform.rotation = targetLookRotation;
         }
-        else if (_cameraDragButtonDown)
-        {
-            if (_dragging)
-            {
-                var horizontalDelta = (_mousePosition - _startMousePos).x;
-
-                var horizontalMovementRatio = horizontalDelta / Screen.width;
-
-                var rotationQuaternion = Quaternion.AngleAxis(horizontalMovementRatio * 15, Vector3.up);
-                _offset = rotationQuaternion * _offset;
-
-                UpdateCameraPosition();
-
-                var targetLookRotation =
-                    Quaternion.LookRotation(PlayerController.transform.position - transform.position, Vector3.up);
-                transform.rotation = targetLookRotation;
-            }
-            else
-            {
-                UpdateCameraPosition();
-                _startMousePos = _mousePosition;
-                _dragging = true;
-            }
-        }
-
 
         if (_currentShakeDuration > 0)
         {

@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         var moveableRay = new Ray(transform.position, Vector3.down);
         var hitMoveable = Physics.Raycast(moveableRay, out var hitInfo, 1f, moveableMask);
 
-        if (hitMoveable)
+        if (hitMoveable && _currentMoveableParent != null)
         {
             var moveable = hitInfo.transform;
             transform.parent = moveable;
@@ -278,20 +278,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log("WHY2");
 
         temporal.OnInteractedWith();
-
-        // var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
-
-        // var layerMask = LayerMask.GetMask("MO");
-        // var boxWillHitEnvironment = Physics.Raycast(otherRigidbody.transform.position + (forceVector * 1.1f), forceVector, 2.2f, layerMask);
-        //
-        // // fooOrigin = otherRigidbody.transform.position + (forceVector * 1.1f);
-        // // fooDirection = forceVector *.5f;
-        // // Debug.Log(boxWillHitEnvironment);
-        // // if(boxWillHitEnvironment)
-        // //     return;
-        // //
-        // var pushForce = 4;
-        // otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
     }
 
     // Used by temporal manager to disable input when reversing level

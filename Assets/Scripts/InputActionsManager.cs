@@ -1,38 +1,80 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class InputActionsManager : MonoBehaviour
 {
-    private static InputActionsManager _instance;
+    public static InputActionsManager Instance;
 
     public static InputActions InputActions;
-    public static bool IsMouseOverUIElement => _instance.EventSystem.IsPointerOverGameObject();
+    public static bool IsMouseOverUIElement => Instance.EventSystem.IsPointerOverGameObject();
 
     public EventSystem EventSystem;
 
     private Vector2 _mousePosition;
 
-    public static Vector2 GetMousePosition => _instance._mousePosition;
+    public static Vector2 GetMousePosition => Instance._mousePosition;
+
+    public static InputScheme CurrentInputScheme;
+
+    private static InputDevice _lastInputDevice;
+
+    public EventHandler<InputSchemeChangedEventArgs> InputSchemeChanged;
 
     private void Awake()
     {
-        if (_instance != null)
+        Instance = this;
+        InputActions = new InputActions();
+
+        InputActions.Camera.MousePosition.performed += ctx =>
         {
-            Debug.LogWarning(
-                $"Singleton instance of {nameof(InputActionsManager)} already exists! Deleting this one...");
-            Destroy(gameObject);
-            return;
+            InputDeviceUsed(ctx.control.device);
+            _mousePosition = ctx.ReadValue<Vector2>();
+        };
+        InputActions.Camera.MousePosition.canceled += _ => { _mousePosition = Vector2.zero; };
+        InputActions.Camera.CameraDragButton.performed += ctx => { InputDeviceUsed(ctx.control.device); };
+        InputActions.Camera.CameraDragDirection.performed += ctx =>
+        {
+            InputDeviceUsed(ctx.control.device);
+        };
+
+        InputActions.Player.Move.performed += ctx => InputDeviceUsed(ctx.control.device);
+        InputActions.Player.Jump.started += ctx => InputDeviceUsed(ctx.control.device);
+        InputActions.Player.Dash.started += ctx => InputDeviceUsed(ctx.control.device);
+        InputActions.Player.Reverse.started += ctx => InputDeviceUsed(ctx.control.device);
+        InputActions.Player.ResetLevel.started += ctx => InputDeviceUsed(ctx.control.device);
+
+        if (CurrentInputScheme == InputScheme.UNSET)
+        {
+            OnInputSchemeChanged(InputScheme.MOUSE_KEYBOARD);
+        }
+    }
+
+    private void InputDeviceUsed(InputDevice device)
+    {
+        var previousInputScheme = CurrentInputScheme;
+        if (device is Gamepad)
+        {
+            CurrentInputScheme = InputScheme.CONTROLLER;
+        }
+        else
+        {
+            CurrentInputScheme = InputScheme.MOUSE_KEYBOARD;
         }
 
-        _instance = this;
-        InputActions = new InputActions();
+        if (previousInputScheme != CurrentInputScheme)
+        {
+            OnInputSchemeChanged(CurrentInputScheme);
+        }
     }
 
-    private void Start()
+    private void OnInputSchemeChanged(InputScheme inputScheme)
     {
-        InputActions.Camera.MousePosition.performed += ctx => _mousePosition = ctx.ReadValue<Vector2>();
-        InputActions.Camera.MousePosition.canceled += _ => _mousePosition = Vector2.zero;
+        var eventArgs = new InputSchemeChangedEventArgs(inputScheme);
+        InputSchemeChanged?.Invoke(this, eventArgs);
     }
+
 
     private void OnEnable()
     {

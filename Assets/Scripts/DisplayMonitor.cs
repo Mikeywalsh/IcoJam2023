@@ -1,0 +1,27 @@
+﻿using TMPro;
+using UnityEngine;
+
+public class DisplayMonitor : MonoBehaviour
+{
+    private TextMeshPro _text;
+
+    private string _templateText;
+    
+    public string[] ControllerArgs;
+    public string[] KeyboardMouseArgs;
+
+    private void Start()
+    {
+        _text = GetComponentInChildren<TextMeshPro>();
+        _templateText = _text.text;
+        
+        InputActionsManager.Instance.InputSchemeChanged += InputSchemeChanged;
+    }
+
+    private void InputSchemeChanged(object sender, InputSchemeChangedEventArgs e)
+    {
+        var argsToUse = e.NewInputScheme == InputScheme.MOUSE_KEYBOARD ? KeyboardMouseArgs : ControllerArgs;
+        // ReSharper disable once CoVariantArrayConversion
+        _text.text = string.Format(_templateText, argsToUse);
+    }
+}
