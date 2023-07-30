@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool _inputDisabled;
     
     private bool _secondJumpAvailable;
-    private bool _dashAvailable;
+    private bool _airborneDashAvailable;
 
     private void Start()
     {
@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
         movement += playerRight * MoveDirectionInput.x;
 
         MoveDirection = new Vector2(movement.normalized.x, movement.normalized.z);
+        _facingDirection = MoveDirection;
     }
 
     private void Update()
@@ -124,6 +125,11 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateVerticalSpeed(float timeStep)
     {
+        if (IsDashing)
+        {
+            VerticalSpeed = 0f;
+        }
+        
         var accelerationMultiplier =
             GroundedState == GroundedState.AIRBORNE && VerticalSpeed < -float.Epsilon ? 1.5f : 1f;
         _verticalAcceleration = -PlayerMovementSettings.GravityStrength * accelerationMultiplier;
@@ -134,7 +140,7 @@ public class PlayerController : MonoBehaviour
                  // If grounded, set speed to essentially 0 (still needs to be higher or the player floats and causes weird collider issues)
                 VerticalSpeed = -PlayerMovementSettings.GravityStrength;
                 _secondJumpAvailable = false;
-                _dashAvailable = true;
+                _airborneDashAvailable = true;
                 break;
             case GroundedState.AIRBORNE:
                 VerticalSpeed = Mathf.Clamp(VerticalSpeed + _verticalAcceleration * timeStep,
@@ -166,18 +172,18 @@ public class PlayerController : MonoBehaviour
 
     private void TryDash()
     {
-        if (IsDashing || !_dashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown) 
-            || MoveDirection.Equals(Vector2.zero))
+        if (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown))
         {
             return;
         }
 
-        _dashDirection = MoveDirection.normalized;
         IsDashing = true;
+        _animationController.Dash();
+        _dashDirection = new Vector3(_facingDirection.x, 0, _facingDirection.y);
         _lastDashTime = Time.time;
         if (GroundedState == GroundedState.AIRBORNE)
         {
-            _dashAvailable = false;
+            _airborneDashAvailable = false;
         }
     }
 
@@ -191,11 +197,13 @@ public class PlayerController : MonoBehaviour
             GroundedState = GroundedState.AIRBORNE;
 
             _secondJumpAvailable = true;
+            _animationController.Jump();
         } 
         else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable)
         {
             VerticalSpeed = PlayerMovementSettings.JumpSpeed;
             _secondJumpAvailable = false;
+            _animationController.DoubleJump();
         }
     }
 
