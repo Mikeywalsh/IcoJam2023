@@ -15,7 +15,10 @@ namespace Traps
 
         public Material OnMaterial;
         public Material OffMaterial;
+        private bool _wasLockedLastFrame;
         
+        private readonly HashSet<GameObject> _standingObjects = new();
+
         protected override void Start()        
         {
             _meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
@@ -24,7 +27,6 @@ namespace Traps
         private void FixedUpdate()
         {
             _meshRenderers.ForEach(meshRenderer => meshRenderer.material = Triggered ? OnMaterial : OffMaterial);
-            
             if (Triggered)
             {
                 MoveToggleOn();
@@ -32,6 +34,13 @@ namespace Traps
             {
                 MoveToggleOff();
             }
+            
+            if (_wasLockedLastFrame && _standingObjects.Count == 0)
+            {
+                TryToggle();
+            }
+
+            _wasLockedLastFrame = IsLocked();
         }
         
         private void MoveToggleOn()
@@ -59,16 +68,29 @@ namespace Traps
             _toggleTween = transform.GetChild(0).DOLocalRotate(new Vector3(-130f, 0f, 0f), 0.2f)
                 .SetEase(Ease.Linear);
         }
-
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<ITemporal>() == null)
             {
                 return;
             }
+            _standingObjects.Add(other.gameObject);
+
+            if (_standingObjects.Count == 1)
+            {
+                TryToggle();
+            }
+        }
+        
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.GetComponent<ITemporal>() == null)
+            {
+                return;
+            }
             
-            TryToggle();
-            OnInteractedWith();
+            _standingObjects.Remove(other.gameObject);
         }
     }
 }

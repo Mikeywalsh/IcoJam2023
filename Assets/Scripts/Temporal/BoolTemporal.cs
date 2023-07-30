@@ -20,13 +20,12 @@ namespace Temporal
 
         protected void TryToggle()
         {
+            Debug.Log("trying toggle");
             if (Reversing || IsLocked())
             {
                 return;
             }
-            
             Triggered = !Triggered;
-            Debug.Log("toggled to " + Triggered);
             OnInteractedWith();
         }
 

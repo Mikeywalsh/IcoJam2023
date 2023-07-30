@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Temporal;
 using UnityEngine;
 
@@ -13,8 +11,7 @@ namespace Traps
         public Material OnMaterial;
         public Material OffMaterial;
         private bool _wasLockedLastFrame;
-
-        private readonly List<GameObject> _standingObjects = new();
+        private readonly HashSet<GameObject> _standingObjects = new();
         
         protected override void Start()
         {
@@ -32,7 +29,6 @@ namespace Traps
             _wasLockedLastFrame = IsLocked();
         }
 
-        // Make a collision map to not be triggered by projectiles
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<ITemporal>() == null)
