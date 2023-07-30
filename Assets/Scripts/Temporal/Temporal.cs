@@ -120,7 +120,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     public virtual void OnInteractedWith()
     {
-        LockedEnd = CurrentFrame;
+        if(!IsLocked())
+            LockedEnd = CurrentFrame;
     }
 
     public virtual T[] CopyBuffer()

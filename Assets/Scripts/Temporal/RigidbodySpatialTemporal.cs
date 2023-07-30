@@ -14,6 +14,7 @@ public class RigidbodySpatialTemporal : SpatialTemporal
     protected override SpatialTemporalState GetState()
     {
         _rigidbody.isKinematic = false;
+        
         return base.GetState();
     }
 

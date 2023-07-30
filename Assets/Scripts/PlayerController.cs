@@ -246,6 +246,9 @@ public class PlayerController : MonoBehaviour
         InteractWithRigidbody(other.rigidbody);
     }
 
+    private Vector3 fooOrigin;
+    private Vector3 fooDirection;
+    
     private void InteractWithRigidbody(Rigidbody otherRigidbody)
     {
         if (otherRigidbody == null)
@@ -254,11 +257,24 @@ public class PlayerController : MonoBehaviour
         }
 
         var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
-        temporal.OnInteractedWith();
+        Debug.Log("CHEESE");
 
-        var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
-        var pushForce = 4;
-        otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
+        temporal.OnInteractedWith();
+        //
+        // var forceVector = (otherRigidbody.transform.position - transform.position).normalized;
+        //
+        // var layerMask = LayerMask.GetMask("Environment");
+        // var boxWillHitEnvironment = Physics.Raycast(otherRigidbody.transform.position + (forceVector * 1.1f), forceVector, 2.2f, layerMask);
+        //
+        // fooOrigin = otherRigidbody.transform.position + (forceVector * 1.1f);
+        // fooDirection = forceVector *.5f;
+        // Debug.Log(boxWillHitEnvironment);
+        // if(boxWillHitEnvironment)
+        //     return;
+        
+        // var pushForce = 4;
+        // otherRigidbody.AddForce(forceVector * pushForce, ForceMode.Force);
+        
     }
 
     // Used by temporal manager to disable input when reversing level
@@ -304,5 +320,8 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(position, -playerLeft);
         Gizmos.DrawRay(position, playerBack);
         Gizmos.DrawRay(position, -playerBack);
+        
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawRay(fooOrigin, fooDirection);
     }
 }

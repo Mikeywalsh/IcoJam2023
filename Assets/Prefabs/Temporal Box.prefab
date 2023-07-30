@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7876705443503904122}
   - component: {fileID: 96613654110627189}
   - component: {fileID: 5333764281096042722}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Temporal Box
   m_TagString: Temporal
   m_Icon: {fileID: 0}
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LockedIndicatorAnchor: {fileID: 1115064125101102460}
+  InformationDisplayAnchor: {fileID: 0}
   LockedIndicatorScale: 0.5
 --- !u!1 &4179321641327057789
 GameObject:

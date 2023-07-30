@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class PastPlayerResetEffect : MonoBehaviour
@@ -14,8 +15,11 @@ public class PastPlayerResetEffect : MonoBehaviour
     private Tween _portalTween;
     private Tween _playerModelTween;
 
+    private CameraControl _mainCamera;
+
     private void Start()
     {
+        _mainCamera = FindObjectOfType<CameraControl>();
         _portal.localScale = Vector3.zero;
         _portalTween = _portal.DOScale(_portalMaxScale, _duration / 3)
             .SetEase(Ease.InOutBack)
@@ -30,6 +34,13 @@ public class PastPlayerResetEffect : MonoBehaviour
         _playerModelTween = _playerModel.DOScale(Vector3.zero, _duration * 2 / 3)
             .SetEase(Ease.InOutBack)
             .OnComplete(OnEffectComplete);
+    }
+
+    private void Update()
+    {
+        // Always show portal effect over player model
+        _portal.transform.position =
+            transform.position + (_mainCamera.transform.position - transform.position).normalized * 1f;
     }
 
     private void OnEffectComplete()
