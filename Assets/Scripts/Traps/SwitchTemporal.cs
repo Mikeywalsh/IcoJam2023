@@ -24,8 +24,9 @@ namespace Traps
             _meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
         }
         
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             _meshRenderers.ForEach(meshRenderer => meshRenderer.material = Triggered ? OnMaterial : OffMaterial);
             if (Triggered)
             {

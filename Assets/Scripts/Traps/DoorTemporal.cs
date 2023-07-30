@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using Temporal;
-using UnityEngine;
 
 namespace Traps
 {
@@ -12,8 +11,9 @@ namespace Traps
 
         public override int ExecutionOrder() => 1;
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             if (Triggered)
             {
                 Open();

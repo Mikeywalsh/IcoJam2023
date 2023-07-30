@@ -18,8 +18,9 @@ namespace Traps
             _pointLights = GetComponentsInChildren<Light>(true).ToList();
         }
         
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             if (Triggered)
             {
                 TurnLaserOn();

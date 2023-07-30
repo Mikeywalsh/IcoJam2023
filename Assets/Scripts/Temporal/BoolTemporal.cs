@@ -20,7 +20,6 @@ namespace Temporal
 
         protected void TryToggle()
         {
-            Debug.Log("trying toggle");
             if (Reversing || IsLocked())
             {
                 return;

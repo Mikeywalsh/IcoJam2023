@@ -18,8 +18,9 @@ namespace Traps
             _meshRenderer = GetComponent<MeshRenderer>();
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             _meshRenderer.material = Triggered ? OnMaterial : OffMaterial;
             if (Triggered && _wasLockedLastFrame && _standingObjects.Count == 0)
             {
