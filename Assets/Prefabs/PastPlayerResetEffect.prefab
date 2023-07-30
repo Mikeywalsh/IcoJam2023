@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 8580901547085668955}
   - component: {fileID: 1683432738884091653}
   - component: {fileID: 5839314567492972348}
+  - component: {fileID: 7042183347376988967}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -133,6 +134,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7042183347376988967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4787263155763912158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e50e0ceb32ee04e838f557e14d9d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7190154276922891279
 PrefabInstance:
   m_ObjectHideFlags: 0
