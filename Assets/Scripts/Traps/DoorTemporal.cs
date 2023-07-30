@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Linq;
+using DG.Tweening;
 using Temporal;
 
 namespace Traps
@@ -95,6 +96,18 @@ namespace Traps
             _leftDoorMiddleTween = transform.GetChild(3).DOLocalMoveX(0f, 0.2f)
                 .SetEase(Ease.Linear);
             
+        }
+
+        protected override string GetInformationText()
+        {
+            var triggeredCount = BoolTemporals.Count(temporal => temporal.Triggered);
+
+            return $"{triggeredCount}/{BoolTemporals.Count}";
+        }
+
+        protected override bool ShouldDisplayInformationText()
+        {
+            return !Triggered;
         }
     }
 }
