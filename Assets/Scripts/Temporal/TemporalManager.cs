@@ -105,6 +105,11 @@ public class TemporalManager : MonoBehaviour
         _reversing = true;
         _currentFrame -= 1;
         _frameAtReset = _currentFrame;
+        
+        foreach (var temporal in _allTemporals)
+        {
+            temporal.StartedReversing();
+        }
 
         var timeToReverse = 2f;
         

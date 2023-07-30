@@ -7,9 +7,12 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     protected int LockedEnd = -1;
 
     protected bool Reversing;
+    
+    // Needed to stop objects from writing when the 0.4 second pre-reverse animation begins
+    private bool _hasStartedReversing;
 
     public Transform LockedIndicatorAnchor;
-    public float LockedIndicatorScale = 0.25f;
+    public float LockedIndicatorScale = 0.5f;
     private GameObject _lockedIndicatorPrefab;
     private GameObject _lockedIndicator;
 
@@ -52,11 +55,16 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     }
 
+    public void StartedReversing()
+    {
+        _hasStartedReversing = true;
+    }
+    
     protected virtual void FixedUpdate()
     {
         if (_lockedIndicator != null)
         {
-            _lockedIndicator.gameObject.SetActive(IsLocked() && !Reversing);
+            _lockedIndicator.gameObject.SetActive(IsLocked() && !Reversing && !_hasStartedReversing);
         }
     }
 
@@ -66,6 +74,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     {
         CurrentFrame = 0;
         Reversing = false;
+        _hasStartedReversing = false;
         SetState(TemporalBuffer[0]);
     }
 
