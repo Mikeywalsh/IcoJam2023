@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Temporal
+﻿namespace Temporal
 {
     public abstract class BoolTemporal : Temporal<BoolTemporalState>
     {
@@ -15,7 +13,14 @@ namespace Temporal
         
         protected override void SetState(BoolTemporalState state)
         {
+            var oldState = Triggered;
+            
             Triggered = state.Triggered;
+            
+            if (oldState != state.Triggered)
+            {
+                OnStateChanged();
+            }
         }
 
         protected void TryToggle()
