@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using Temporal;
 using UnityEngine;
 
@@ -6,8 +8,13 @@ namespace Traps
 {
     public class ButtonTemporal : BoolTemporal
     {
-        private MeshRenderer _meshRenderer;
+        private MeshRenderer _buttonHolderMeshRenderer;
+        private int _indicatorMaterialIndex = 1;
+        public GameObject ButtonHolder;
+        public GameObject ButtonModel;
+        private Material[] _buttonHolderMaterials;
 
+        private Tween _buttonModelTween;
         public Material OnMaterial;
         public Material OffMaterial;
         private bool _wasLockedLastFrame;
@@ -15,19 +22,31 @@ namespace Traps
         
         protected override void Start()
         {
-            _meshRenderer = GetComponent<MeshRenderer>();
+            base.Start();
+            _buttonHolderMeshRenderer = ButtonHolder.GetComponent<MeshRenderer>();
+            _buttonHolderMaterials = _buttonHolderMeshRenderer.materials;
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            _meshRenderer.material = Triggered ? OnMaterial : OffMaterial;
+            
             if (Triggered && _wasLockedLastFrame && _standingObjects.Count == 0)
             {
                 TryTurnOff();
             }
 
             _wasLockedLastFrame = IsLocked();
+        }
+
+        protected override void OnStateChanged()
+        {
+            base.OnStateChanged();
+            
+            _buttonModelTween?.Kill();
+            _buttonModelTween = ButtonModel.transform.DOLocalMoveZ(Triggered ? -0.00178f : 0f, 0.2f);
+            _buttonHolderMaterials[_indicatorMaterialIndex] = Triggered ? OnMaterial : OffMaterial;
+            _buttonHolderMeshRenderer.materials = _buttonHolderMaterials;
         }
 
         private void OnTriggerEnter(Collider other)

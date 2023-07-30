@@ -25,9 +25,14 @@ namespace Temporal
                 return;
             }
             Triggered = !Triggered;
+            OnStateChanged();
             OnInteractedWith();
         }
 
+        protected virtual void OnStateChanged()
+        {
+        }
+        
         protected void TryTurnOn()
         {
             if (Reversing || IsLocked())
@@ -35,6 +40,7 @@ namespace Temporal
                 return;
             }
             Triggered = true;
+            OnStateChanged();
             OnInteractedWith();
         }
 
@@ -45,6 +51,7 @@ namespace Temporal
                 return;
             }
             Triggered = false;
+            OnStateChanged();
             OnInteractedWith();
         }
     }
