@@ -22,9 +22,12 @@ public class TemporalManager : MonoBehaviour
     private List<ITemporal> _allTemporals;
     private bool _reversing;
 
+    private CameraControl _cameraControl;
+
     private void Start()
     {
         _presentPlayer = FindObjectOfType<PresentPlayerTemporal>();
+        _cameraControl = FindObjectOfType<CameraControl>();
         _allTemporals = new List<ITemporal>();
         var temporalTagGameObjects = GameObject.FindGameObjectsWithTag("Temporal");
 
@@ -105,7 +108,7 @@ public class TemporalManager : MonoBehaviour
 
         var timeToReverse = 2f;
         
-        Camera.main!.GetComponent<CameraControl>().OnLevelReverse(timeToReverse);
+        _cameraControl.OnLevelReverse(timeToReverse);
         DOTween.To(() => _currentFrame, x => _currentFrame = x, 0, timeToReverse)
             .OnUpdate(() =>
             {

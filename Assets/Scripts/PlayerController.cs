@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool _itemSelectionBlocked;
     private Action _planeTransitionCallback;
     private CharacterController _characterController;
+    private CameraControl _mainCamera;
     private Vector3 _facingDirection;
     private Vector3 _playerVelocity;
     private float _lastJumpTime = -100f;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _animationController = GetComponent<PlayerAnimationController>();
+        _mainCamera = FindObjectOfType<CameraControl>();
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        var cameraVector = transform.position - Camera.main.transform.position;
+        var cameraVector = transform.position - _mainCamera.transform.position;
         var cross = Vector3.Cross(cameraVector, Vector3.up);
 
         var playerRight = cross.normalized;
@@ -267,17 +269,22 @@ public class PlayerController : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        var cameraVector = transform.position - Camera.main.transform.position;
+        if(!Application.isPlaying)
+            return;
+        
+        var cameraPosition = _mainCamera.transform.position;
+        var position = transform.position;
+        var cameraVector = position - cameraPosition;
         var playerLeft = Vector3.Cross(cameraVector, Vector3.up).normalized;
         var playerBack = Vector3.Cross(playerLeft, Vector3.up).normalized;
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawRay(Camera.main.transform.position, cameraVector);
+        Gizmos.DrawRay(cameraPosition, cameraVector);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, playerLeft);
-        Gizmos.DrawRay(transform.position, -playerLeft);
-        Gizmos.DrawRay(transform.position, playerBack);
-        Gizmos.DrawRay(transform.position, -playerBack);
+        Gizmos.DrawRay(position, playerLeft);
+        Gizmos.DrawRay(position, -playerLeft);
+        Gizmos.DrawRay(position, playerBack);
+        Gizmos.DrawRay(position, -playerBack);
     }
 }

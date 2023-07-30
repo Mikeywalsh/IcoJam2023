@@ -8,10 +8,27 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     protected bool Reversing;
 
+    public Transform LockedIndicatorAnchor;
+    public float LockedIndicatorScale = 0.25f;
+    private GameObject _lockedIndicatorPrefab;
+    private GameObject _lockedIndicator;
+
     public virtual int ExecutionOrder() => 0;
 
     protected virtual void Start()
     {
+        _lockedIndicatorPrefab = Resources.Load("LockedIndicator") as GameObject;
+
+        if (LockedIndicatorAnchor == null)
+        {
+            Debug.Log($"Object: {gameObject.name} does not have a locked indicator anchor...");
+            return;
+        }
+
+        _lockedIndicator = Instantiate(_lockedIndicatorPrefab, LockedIndicatorAnchor.position, Quaternion.identity);
+        _lockedIndicator.transform.localScale = Vector3.one * LockedIndicatorScale;
+        _lockedIndicator.transform.parent = LockedIndicatorAnchor;
+        _lockedIndicator.SetActive(false);
     }
     
     public void UpdateTemporalState(int currentFrame, bool reversing)
@@ -33,6 +50,14 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
             TemporalBuffer[CurrentFrame] = GetState();
         }
 
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (_lockedIndicator != null)
+        {
+            _lockedIndicator.gameObject.SetActive(IsLocked() && !Reversing);
+        }
     }
 
     public bool IsLocked() => LockedEnd > CurrentFrame;
