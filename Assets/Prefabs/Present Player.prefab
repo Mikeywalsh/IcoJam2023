@@ -77,16 +77,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerMovementSettings:
-    GravityStrength: 2
     HorizontalAcceleration: 1
     HorizontalDeceleration: 12
     MaxHorizontalRunSpeed: 0.2
-    MaxHorizontalSprintSpeed: 5.5
-    DashSpeed: 7
     JumpSpeed: 0.5
     JumpCooldownGround: 0.5
-    DashCooldown: 0.9
-    TotalDashDuration: 0.8
+    HorizontalDashSpeed: 0.6
+    TotalDashDuration: 0.2
+    DashCooldown: 0.5
+    GravityStrength: 2
     MaxFallSpeedAir: 20
   MoveDirection: {x: 0, y: 0}
   MoveDirectionInput: {x: 0, y: 0}

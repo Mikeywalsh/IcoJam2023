@@ -6,6 +6,8 @@ namespace Temporal
     {
         public bool Triggered;
 
+        private BoolTemporalState _initialState;
+
         protected override BoolTemporalState GetState()
         {
             return new BoolTemporalState(Triggered);
@@ -16,21 +18,36 @@ namespace Temporal
             Triggered = state.Triggered;
         }
 
-        public void Toggle()
+        protected void TryToggle()
         {
-            TemporalBuffer[CurrentFrame - 1] = new BoolTemporalState(!Triggered);
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
+            
             Triggered = !Triggered;
+            Debug.Log("toggled to " + Triggered);
+            OnInteractedWith();
         }
 
-        public void TurnOn()
+        protected void TryTurnOn()
         {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
             Triggered = true;
+            OnInteractedWith();
         }
 
-        public void TurnOff()
+        protected void TryTurnOff()
         {
-            TemporalBuffer[CurrentFrame - 1] = new BoolTemporalState(false);
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
             Triggered = false;
+            OnInteractedWith();
         }
     }
 }
