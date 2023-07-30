@@ -257,7 +257,6 @@ public class PlayerController : MonoBehaviour
         }
 
         var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
-        Debug.Log("CHEESE");
 
         temporal.OnInteractedWith();
         //
