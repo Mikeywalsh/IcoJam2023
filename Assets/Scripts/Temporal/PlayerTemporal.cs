@@ -32,7 +32,7 @@ public abstract class PlayerTemporal : Temporal<PlayerTemporalState>
 
     public override PlayerTemporalState[] CopyBuffer()
     {
-        var copiedBuffer = new PlayerTemporalState[TemporalManager.MAX_LEVEL_FRAMES];
+        var copiedBuffer = new PlayerTemporalState[TemporalBuffer.Length];
 
         for (var i = 0; i < TemporalBuffer.Length; i++)
         {

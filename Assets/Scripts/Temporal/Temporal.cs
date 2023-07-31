@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalState
 {
-    protected T[] TemporalBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
+    protected T[] TemporalBuffer;
     protected int CurrentFrame;
     protected int LockedEnd = -1;
 
@@ -22,6 +22,11 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     public virtual int ExecutionOrder() => 0;
 
+    public virtual void Initialize(int bufferSize)
+    {
+        TemporalBuffer = new T[bufferSize];
+    }
+    
     protected virtual void Start()
     {
         _lockedIndicatorPrefab = Resources.Load("LockedIndicator") as GameObject;
@@ -118,7 +123,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     public virtual T[] CopyBuffer()
     {
-        var copiedBuffer = new T[TemporalManager.MAX_LEVEL_FRAMES];
+        var copiedBuffer = new T[TemporalBuffer.Length];
         TemporalBuffer.CopyTo(copiedBuffer, 0);
         return copiedBuffer;
     }

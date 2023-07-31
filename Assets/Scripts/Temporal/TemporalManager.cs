@@ -8,11 +8,13 @@ using UnityEngine;
 public class TemporalManager : MonoBehaviour
 {
     public const int FRAMES_PER_SECOND = 50;
-    public const int LEVEL_LENGTH_SECONDS = 60;
-    public const int MAX_LEVEL_FRAMES = FRAMES_PER_SECOND * LEVEL_LENGTH_SECONDS;
-
     private const int SLOWDOWN_FRAMES = 50;
-    private const int SLOWDOWN_START = MAX_LEVEL_FRAMES - SLOWDOWN_FRAMES;
+
+    public int LevelLengthSeconds;
+    
+    public int MaxLevelFrames() => FRAMES_PER_SECOND * LevelLengthSeconds;
+
+    public int SlowdownStart() => MaxLevelFrames() - SLOWDOWN_FRAMES;
 
     public PastPlayerTemporal PastPlayerTemporalPrefab;
     private PresentPlayerTemporal _presentPlayer;
@@ -41,6 +43,7 @@ public class TemporalManager : MonoBehaviour
                     $"Gameobject: {temporalTagGameObject.name} was expected to have the temporal tag, but it didn't...");
             }
 
+            temporalGameObject.Initialize(MaxLevelFrames());
             _allTemporals.Add(temporalGameObject);
         }
 
@@ -54,17 +57,17 @@ public class TemporalManager : MonoBehaviour
         if (_reversing || _levelEnding)
             return;
 
-        var slowDownReached = _currentFrame >= SLOWDOWN_START - 1;
+        var slowDownReached = _currentFrame >= SlowdownStart() - 1;
 
         if (slowDownReached)
         {
-            var framesIntoSlowDown = _currentFrame - SLOWDOWN_START - 1;
+            var framesIntoSlowDown = _currentFrame - SlowdownStart() - 1;
 
             var newTimeScale = math.lerp(1, .2f, framesIntoSlowDown / (float) SLOWDOWN_FRAMES);
             Time.timeScale = newTimeScale;
         }
 
-        var levelEndReached = _currentFrame >= MAX_LEVEL_FRAMES - 1;
+        var levelEndReached = _currentFrame >= MaxLevelFrames() - 1;
         if (levelEndReached)
         {
             Time.timeScale = 0;
@@ -76,7 +79,7 @@ public class TemporalManager : MonoBehaviour
             temporal.UpdateTemporalState(_currentFrame, false);
         }
 
-        if (_currentFrame + 3 * FRAMES_PER_SECOND > MAX_LEVEL_FRAMES)
+        if (_currentFrame + 3 * FRAMES_PER_SECOND > MaxLevelFrames())
         {
             AudioManager.TryPlay("countdown");
         }
@@ -89,7 +92,8 @@ public class TemporalManager : MonoBehaviour
         // Create past player
         var presentPlayerBufferCopy = _presentPlayer.CopyBuffer();
         var pastPlayer = Instantiate(PastPlayerTemporalPrefab, Vector3.zero, quaternion.identity);
-        pastPlayer.Initialize(presentPlayerBufferCopy, _frameAtReset);
+        pastPlayer.Initialize(MaxLevelFrames());
+        pastPlayer.SetPastPlayerData(presentPlayerBufferCopy, _frameAtReset);
         _allTemporals.Add(pastPlayer);
 
         foreach (var temporal in _allTemporals)

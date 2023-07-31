@@ -9,13 +9,17 @@ public class PastPlayerTemporal : PlayerTemporal
     // If the player presses the reset button early, we need this so we can despawn the past player in the same frame
     private int _lastFrame;
 
-    public void Initialize(PlayerTemporalState[] playerBuffer, int lastFrame)
+
+    public override void Initialize(int bufferSize)
+    {
+        // Past players are always locked, we only read from buffer
+        LockedEnd = bufferSize - 1;
+    }
+
+    public void SetPastPlayerData(PlayerTemporalState[] playerBuffer, int lastFrame)
     {
         TemporalBuffer = playerBuffer;
         _lastFrame = lastFrame;
-        
-        // Past players are always locked, we only read from buffer
-        LockedEnd = TemporalManager.MAX_LEVEL_FRAMES - 1;
     }
     
     protected override PlayerTemporalState GetState()

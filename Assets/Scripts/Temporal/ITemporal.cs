@@ -1,6 +1,7 @@
 ﻿public interface ITemporal
 {
-    public int ExecutionOrder();
+    int ExecutionOrder();
+    void Initialize(int bufferSize);
     void UpdateTemporalState(int currentFrame, bool reversing);
     void ResetTemporal();
     void SetActive(bool value);
