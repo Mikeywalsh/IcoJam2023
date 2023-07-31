@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 3242933580703573456}
   - component: {fileID: 7977791211242289137}
   m_Layer: 5
-  m_Name: Countdown Text
+  m_Name: Rewinds Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,8 +371,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 124, y: 9}
-  m_SizeDelta: {x: 238.6912, y: 143.26349}
+  m_AnchoredPosition: {x: 124, y: 27.716}
+  m_SizeDelta: {x: 238.6912, y: 55.432}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3242933580703573456
 CanvasRenderer:
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 95.041954}
+  m_margin: {x: 0, y: 56.21934, z: 0, w: 51.409008}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -977,8 +977,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 119.34558, y: 122}
-  m_SizeDelta: {x: 238.69116, y: 143.26349}
+  m_AnchoredPosition: {x: 119.35, y: 83}
+  m_SizeDelta: {x: 238.6912, y: 92.9178}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5364106940512467339
 CanvasRenderer:
@@ -1044,7 +1044,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1238,6 +1238,7 @@ MonoBehaviour:
   SecondsLeftText: {fileID: 1993832380205248235}
   RewindsLeftText: {fileID: 8029728025936991217}
   RewindIcon: {fileID: 0}
+  EndOfLevelText: {fileID: 0}
 --- !u!224 &5932637843989991263 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5195999631992171564, guid: 25dc1da732831194b96d9a633c62ed31,

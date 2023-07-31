@@ -7,7 +7,6 @@ public class LoadingCubeManager : MonoBehaviour
     public Camera LoadingCubeCamera;
     public Transform LoadingCube;
 
-    private bool _isLoading;
     private Vector3 _rotateAxis;
 
     private void Awake()
@@ -52,7 +51,6 @@ public class LoadingCubeManager : MonoBehaviour
 
     public void OnStartedLoading(object sender, System.EventArgs args)
     {
-        _isLoading = true;
         LoadingCubeCamera.gameObject.SetActive(true);
         LoadingCube.gameObject.SetActive(true);
         LoadingCubeImage.enabled = true;
@@ -60,7 +58,6 @@ public class LoadingCubeManager : MonoBehaviour
 
     public void OnFinishedLoading(object sender, System.EventArgs args)
     {
-        _isLoading = false;
         LoadingCubeCamera.gameObject.SetActive(false);
         LoadingCube.gameObject.SetActive(false);
         LoadingCubeImage.enabled = false;

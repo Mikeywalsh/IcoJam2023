@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128.85
+  m_fontSize: 107.95
   m_fontSizeBase: 150
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5701,6 +5701,11 @@ PrefabInstance:
       propertyPath: EndOfLevelText
       value: 
       objectReference: {fileID: 1501512595}
+    - target: {fileID: 4717045951192880884, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: RewindsLeft
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7334020758818830393, guid: 0f930649591056249913f6b20b6aba29,
         type: 3}
       propertyPath: m_LocalPosition.x
