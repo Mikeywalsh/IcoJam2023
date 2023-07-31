@@ -53,8 +53,12 @@ MonoBehaviour:
   LockedIndicatorAnchor: {fileID: 0}
   InformationDisplayAnchor: {fileID: 8604543918074761277}
   LockedIndicatorScale: 0.5
+  InformationTextScale: 0.35
   Triggered: 0
-  BoolTemporals: []
+  BoolTemporals:
+  - {fileID: 0}
+  - {fileID: 0}
+  TriggersRequired: 2
 --- !u!1 &7954176939887425256
 GameObject:
   m_ObjectHideFlags: 0

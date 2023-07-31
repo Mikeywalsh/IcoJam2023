@@ -11,6 +11,8 @@ public class TemporalManager : MonoBehaviour
     private const int SLOWDOWN_FRAMES = 50;
 
     public int LevelLengthSeconds;
+
+    public GameUIManager GameUIManager;
     
     public int MaxLevelFrames() => FRAMES_PER_SECOND * LevelLengthSeconds;
 
@@ -54,8 +56,10 @@ public class TemporalManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_reversing || _levelEnding)
+        if ((_reversing || _levelEnding) && LevelLoaderManager.Instance.IsLevelLoaded)
             return;
+        
+        GameUIManager.SetFrame(_currentFrame, MaxLevelFrames());
 
         var slowDownReached = _currentFrame >= SlowdownStart() - 1;
 
@@ -141,6 +145,7 @@ public class TemporalManager : MonoBehaviour
         DOTween.To(() => _currentFrame, x => _currentFrame = x, 0, timeToReverse)
             .OnUpdate(() =>
             {
+                GameUIManager.SetFrame(_currentFrame, MaxLevelFrames());
                 foreach (var temporal in _allTemporals)
                 {
                     temporal.UpdateTemporalState(_currentFrame, true);

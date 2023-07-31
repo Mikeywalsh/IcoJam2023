@@ -20,6 +20,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     private GameObject _lockedIndicator;
     private InformationText _informationText;
 
+    public float InformationTextScale; 
+
     public virtual int ExecutionOrder() => 0;
 
     public virtual void Initialize(int bufferSize)
@@ -39,12 +41,11 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
             _lockedIndicator.transform.parent = LockedIndicatorAnchor;
             _lockedIndicator.SetActive(false);
         }
-
-
+        
         if (InformationDisplayAnchor != null)
         {
             _informationText = Instantiate(_informationTextPrefab, InformationDisplayAnchor.position, Quaternion.identity).GetComponent<InformationText>();
-            _informationText.transform.localScale = Vector3.one * .35f;
+            _informationText.transform.localScale = Vector3.one * InformationTextScale;
             _informationText.transform.SetParent(InformationDisplayAnchor);
             _informationText.gameObject.SetActive(false);
         }

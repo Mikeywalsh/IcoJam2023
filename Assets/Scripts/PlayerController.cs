@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inputDisabled || _reversing)
+        if ((_inputDisabled || _reversing) && LevelLoaderManager.Instance.IsLevelLoaded)
             return;
 
         RefreshMovementDirection();

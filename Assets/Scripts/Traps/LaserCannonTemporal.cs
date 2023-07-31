@@ -14,6 +14,7 @@ namespace Traps
         
         protected override void Start()
         {
+            base.Start();
             _lineRenderers = GetComponentsInChildren<LineRenderer>(true).ToList();
             _pointLights = GetComponentsInChildren<Light>(true).ToList();
         }

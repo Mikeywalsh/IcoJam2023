@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Temporal
+﻿namespace Temporal
 {
     public abstract class BoolTemporal : Temporal<BoolTemporalState>
     {

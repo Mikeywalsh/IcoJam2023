@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Temporal;
 
 namespace Traps
@@ -13,8 +12,6 @@ namespace Traps
         private Tween _rightDoorMiddleTween;
         private Tween _leftDoorMiddleTween;
         private bool _open;
-
-        public override int ExecutionOrder() => 1;
 
         protected override void FixedUpdate()
         {
@@ -104,18 +101,6 @@ namespace Traps
             {
                 AudioManager.Play("door-close");
             }
-        }
-
-        protected override string GetInformationText()
-        {
-            var triggeredCount = BoolTemporals.Count(temporal => temporal.Triggered);
-
-            return $"{triggeredCount}/{BoolTemporals.Count}";
-        }
-
-        protected override bool ShouldDisplayInformationText()
-        {
-            return !Triggered;
         }
     }
 }
