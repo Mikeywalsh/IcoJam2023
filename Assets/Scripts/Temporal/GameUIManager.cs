@@ -38,7 +38,7 @@ public class GameUIManager : MonoBehaviour
     
     public void UpdateRewindCount(int rewindCount)
     {
-        RewindsLeftText.text = "x" + rewindCount;
+        RewindsLeftText.text = rewindCount.ToString();
     }
 
     public void DisplayEndOfLevelText()
