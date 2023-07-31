@@ -3328,7 +3328,7 @@ PrefabInstance:
     - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
       propertyPath: ControllerArgs.Array.data[0]
-      value: B
+      value: Left Trigger
       objectReference: {fileID: 0}
     - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
@@ -3354,6 +3354,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Press '{0}' to rewind
+      objectReference: {fileID: 0}
+    - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6528623333982235214, guid: 85f5134368872404884991ef74776bd2,
         type: 3}

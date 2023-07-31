@@ -26,6 +26,7 @@ public class TemporalManager : MonoBehaviour
 
     private void Start()
     {
+
         _presentPlayer = FindObjectOfType<PresentPlayerTemporal>();
         _cameraControl = FindObjectOfType<CameraControl>();
         _allTemporals = new List<ITemporal>();
@@ -44,6 +45,7 @@ public class TemporalManager : MonoBehaviour
         }
 
         _allTemporals = _allTemporals.OrderBy(temporal => temporal.ExecutionOrder()).ToList();
+        InputActionsManager.InputActions.Player.Reverse.started += _ => StartReset();
     }
 
     private void FixedUpdate()
@@ -111,6 +113,7 @@ public class TemporalManager : MonoBehaviour
             temporal.StartedReversing();
         }
 
+        _presentPlayer.GetComponent<PlayerController>().DisableInputAndAnimations();
         var timeToReverse = 2f;
         
         _cameraControl.OnLevelReverse(timeToReverse);

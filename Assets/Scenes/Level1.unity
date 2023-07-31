@@ -195,6 +195,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 614201133}
     m_Modifications:
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: ControllerArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: ControllerArgs.Array.data[0]
+      value: B
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.data[0]
+      value: L
+      objectReference: {fileID: 0}
     - target: {fileID: 2798363926564444679, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
       propertyPath: m_Mesh
@@ -208,7 +228,7 @@ PrefabInstance:
     - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
       propertyPath: m_text
-      value: Restart level with 'L'
+      value: Restart level with '{0}'
       objectReference: {fileID: 0}
     - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
@@ -313,6 +333,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 614201133}
     m_Modifications:
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: ControllerArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: ControllerArgs.Array.data[0]
+      value: A
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6396011182389837115, guid: 85f5134368872404884991ef74776bd2,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.data[0]
+      value: Space
+      objectReference: {fileID: 0}
     - target: {fileID: 2798363926564444679, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
       propertyPath: m_Mesh
@@ -326,7 +366,7 @@ PrefabInstance:
     - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
       propertyPath: m_text
-      value: Press Space To Jump
+      value: Press {0} to jump
       objectReference: {fileID: 0}
     - target: {fileID: 5063779153477956588, guid: 85f5134368872404884991ef74776bd2,
         type: 3}
@@ -4752,6 +4792,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 614201133}
     m_Modifications:
+    - target: {fileID: -7374206635828565827, guid: 87585fb5a677a6b4cb142d6fde351caf,
+        type: 3}
+      propertyPath: ControllerArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7374206635828565827, guid: 87585fb5a677a6b4cb142d6fde351caf,
+        type: 3}
+      propertyPath: ControllerArgs.Array.data[0]
+      value: right analogue stick
+      objectReference: {fileID: 0}
+    - target: {fileID: -7374206635828565827, guid: 87585fb5a677a6b4cb142d6fde351caf,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7374206635828565827, guid: 87585fb5a677a6b4cb142d6fde351caf,
+        type: 3}
+      propertyPath: KeyboardMouseArgs.Array.data[0]
+      value: right mouse button
+      objectReference: {fileID: 0}
     - target: {fileID: 1339204020290259656, guid: 87585fb5a677a6b4cb142d6fde351caf,
         type: 3}
       propertyPath: m_Name
@@ -4765,7 +4825,7 @@ PrefabInstance:
     - target: {fileID: 2824783654410051638, guid: 87585fb5a677a6b4cb142d6fde351caf,
         type: 3}
       propertyPath: m_text
-      value: Rotate camera with right mouse button
+      value: Rotate camera with the {0}
       objectReference: {fileID: 0}
     - target: {fileID: 2824783654410051638, guid: 87585fb5a677a6b4cb142d6fde351caf,
         type: 3}
