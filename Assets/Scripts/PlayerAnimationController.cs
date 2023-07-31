@@ -35,11 +35,11 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void PauseAnimations()
     {
-        _animator.speed = 0;
+        _animator.enabled = false;
     }
     
     public void ResumeAnimations()
     {
-        _animator.speed = 1;
+        _animator.enabled = true;
     }
 }

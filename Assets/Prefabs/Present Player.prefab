@@ -4924,6 +4924,10 @@ MonoBehaviour:
   TargetHorizontalSpeed: 0
   HorizontalSpeed: 0
   VerticalSpeed: 0
+  PlayerModel: {fileID: 712043947199661357}
+  DoubleJumpUnlocked: 0
+  DashUnlocked: 0
+  IsDead: 0
 --- !u!54 &2799071724815418951
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4987,7 +4991,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LockedIndicatorAnchor: {fileID: 0}
+  InformationDisplayAnchor: {fileID: 0}
   LockedIndicatorScale: 0.25
+  InformationTextScale: 0
   AllTransforms:
   - {fileID: 712043947199661357}
   - {fileID: 3109046313610753067}

@@ -12,7 +12,7 @@ public class LevelLoaderManager : MonoBehaviour
     public EventHandler FinishedLoadingLevel;
     public EventHandler FinishedLevelIntroTransition;
 
-    public static int CurrentLevelId;
+    public static int CurrentLevelId = 4;
 
     private void Awake()
     {

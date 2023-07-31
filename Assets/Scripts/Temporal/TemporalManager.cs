@@ -109,6 +109,7 @@ public class TemporalManager : MonoBehaviour
     {
         // HACK HACK HACK
         _timeStopped = false;
+        _presentPlayer.GetComponent<PlayerController>().IsDead = false;
         
         // Create past player
         var presentPlayerBufferCopy = _presentPlayer.CopyBuffer();

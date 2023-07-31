@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool IsDashing { get; private set; }
     public GroundedState GroundedState { get; private set; }
 
+    public Transform PlayerModel;
     private PlayerAnimationController _animationController;
     private ParticleSystem _jumpParticles;
     private TrailRenderer _dashTrailRenderer;
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private bool _secondJumpAvailable;
     private bool _airborneDashAvailable;
     private bool _reversing;
+    private bool _startedDying;
+
 
     private Rigidbody _rigidbody;
 
@@ -112,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead)
+        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead || _startedDying)
             return;
         
         _rigidbody.velocity = Vector3.zero;
@@ -339,19 +342,26 @@ public class PlayerController : MonoBehaviour
         EnableInputAndAnimations();
         _targetLookDirection = _startingTargetLookDirection;
     }
-
+    
     public void Die()
     {
-        IsDead = true;
+        if (IsDead || _startedDying)
+        {
+            return;
+        }
+        _startedDying = true;
 
+        _dashTrailRenderer.enabled = false;
         _animationController.PauseAnimations();
-        transform.DOScale(Vector3.zero, 1f)
+        PlayerModel.DOScale(Vector3.zero, 1f)
             .SetEase(Ease.OutCirc)
             .OnComplete(() =>
             {
                 // HACK HACK HACK
                 var uiManager = FindObjectOfType<GameUIManager>();
                 uiManager.ShowReminderText(true);
+                IsDead = true;
+                _startedDying = false;
             });
     }
     
