@@ -49,7 +49,7 @@ public class LevelLoaderManager : MonoBehaviour
         {
             return;
         }
-        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId));
+        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId, false));
     }
     
     public static void MoveToNextLevel()
@@ -60,15 +60,24 @@ public class LevelLoaderManager : MonoBehaviour
         }
 
         _currentLevelId++;
-        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId));
+        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId, true));
     }
     
-    private IEnumerator StartLevelExit(int sceneId)
+    private IEnumerator StartLevelExit(int sceneId, bool levelCompleted)
     {
         IsLevelLoaded = false;
         
         OnStartedLevelExit();
         yield return LoadingScreenManager.Instance.StartFadeTransition();
+        
+        // Hack - I DONT CARE
+        var gameUIManager = FindObjectOfType<GameUIManager>();
+        if (gameUIManager.EndOfLevelText != null && levelCompleted)
+        {
+            gameUIManager.DisplayEndOfLevelText();
+            yield return new WaitForSeconds(1f);
+            gameUIManager.HideEndOfLevelText();
+        }
         yield return SceneManager.LoadSceneAsync(sceneId);
     }
 
