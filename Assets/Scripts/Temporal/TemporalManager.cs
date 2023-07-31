@@ -141,7 +141,8 @@ public class TemporalManager : MonoBehaviour
 
     public void TryStartReverse()
     {
-        if (_currentFrame == 0 || Reversing || RewindsLeft == 0)
+        var playerController = _presentPlayer.GetComponent<PlayerController>();
+        if (_currentFrame == 0 || Reversing || RewindsLeft == 0 || playerController.StartedDying)
         {
             return;
         }

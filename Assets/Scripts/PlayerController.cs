@@ -357,6 +357,7 @@ public class PlayerController : MonoBehaviour
             .SetEase(Ease.OutCirc)
             .OnComplete(() =>
             {
+                AudioManager.Stop("countdown");
                 StartedDying = false;
                 if (_temporalManager.LevelEndReached() || _temporalManager.Reversing)
                 {
