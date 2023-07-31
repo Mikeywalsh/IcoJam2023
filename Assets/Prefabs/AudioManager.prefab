@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 3e588d98d0bae4743950c48ac65874cd, type: 3}
+  - clip: {fileID: 8300000, guid: ec1d808884721614380a133787f1dae6, type: 3}
     source: {fileID: 1089492258246260803}
     loop: 1
     name: main-theme
@@ -104,7 +104,7 @@ MonoBehaviour:
     loop: 0
     name: dash
     pitch: 1
-    volume: 0.15
+    volume: 0.1
   - clip: {fileID: 8300000, guid: e8f8470188fad5c46ad706043591df15, type: 3}
     source: {fileID: 1089492258246260803}
     loop: 0
