@@ -13,6 +13,11 @@ public class PresentPlayerTemporal : PlayerTemporal
         _playerController = GetComponent<PlayerController>();
     }
 
+    protected override bool HasStartedDying()
+    {
+        return _playerController.StartedDying;
+    }
+
     public override void ResetTemporal()
     {
         base.ResetTemporal();

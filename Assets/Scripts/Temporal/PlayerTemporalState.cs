@@ -1,10 +1,12 @@
 ﻿public record PlayerTemporalState : TemporalState
 {
     public SpatialTemporalState[] AllTransformSpatialStates { get; }
+    public bool StartedDying { get; }
 
-    public PlayerTemporalState(SpatialTemporalState[] allTransformSpatialStates)
+    public PlayerTemporalState(SpatialTemporalState[] allTransformSpatialStates, bool startedDying)
     {
         AllTransformSpatialStates = allTransformSpatialStates;
+        StartedDying = startedDying;
     }
 
     public PlayerTemporalState CloneState()
@@ -19,6 +21,6 @@
             copiedBuffer[i] = AllTransformSpatialStates[i].CloneState();
         }
 
-        return new PlayerTemporalState(copiedBuffer);
+        return new PlayerTemporalState(copiedBuffer, StartedDying);
     }
 }

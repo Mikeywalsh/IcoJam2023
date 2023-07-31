@@ -5,7 +5,8 @@ public abstract class PlayerTemporal : Temporal<PlayerTemporalState>
 {
     public Transform[] AllTransforms;
 
-
+    protected virtual bool HasStartedDying() => false;
+    
     protected override PlayerTemporalState GetState()
     {
         var allTransformStates = new SpatialTemporalState[AllTransforms.Length];
@@ -16,7 +17,7 @@ public abstract class PlayerTemporal : Temporal<PlayerTemporalState>
                 AllTransforms[i].rotation.eulerAngles, AllTransforms[i].localScale);
         }
 
-        return new PlayerTemporalState(allTransformStates);
+        return new PlayerTemporalState(allTransformStates,HasStartedDying());
     }
 
     protected override void SetState(PlayerTemporalState state)

@@ -6,10 +6,15 @@ public class PastPlayerTemporal : PlayerTemporal
     [SerializeField]
     private PastPlayerResetEffect _pastPlayerResetEffect;
     
+    [SerializeField]
+    private PastPlayerResetEffect _pastPlayerDeathEffect;
+    
     // If the player presses the reset button early, we need this so we can despawn the past player in the same frame
     private int _lastFrame;
 
 
+    private bool _playerDies;
+    
     public override void Initialize(int bufferSize)
     {
         // Past players are always locked, we only read from buffer
@@ -30,12 +35,23 @@ public class PastPlayerTemporal : PlayerTemporal
 
     protected override void SetState(PlayerTemporalState state)
     {
+        if (!Reversing && state.StartedDying && !_playerDies)
+        {
+            // Remove this past player and spawn effect
+            Instantiate(_pastPlayerDeathEffect, transform.position, transform.rotation);
+            _playerDies = true;
+        }
+        
         if (CurrentFrame >= _lastFrame - 1)
         {
-            if (!Reversing)
+            if (!Reversing && !_playerDies)
             {
                 // Remove this past player and spawn effect
                 Instantiate(_pastPlayerResetEffect, transform.position, transform.rotation);
+                
+            }
+            if (!Reversing)
+            {
                 SetActive(false);
             }
             return;

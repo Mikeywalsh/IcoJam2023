@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
     private bool _secondJumpAvailable;
     private bool _airborneDashAvailable;
     private bool _reversing;
-    private bool _startedDying;
 
 
     private Rigidbody _rigidbody;
@@ -54,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private TemporalManager _temporalManager;
 
     public bool IsDead;
+    public bool StartedDying;
     
     private void Start()
     {
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead || _startedDying)
+        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead || StartedDying)
             return;
         
         _rigidbody.velocity = Vector3.zero;
@@ -345,11 +345,11 @@ public class PlayerController : MonoBehaviour
     
     public void Die()
     {
-        if (IsDead || _startedDying)
+        if (IsDead || StartedDying)
         {
             return;
         }
-        _startedDying = true;
+        StartedDying = true;
 
         _dashTrailRenderer.enabled = false;
         _animationController.PauseAnimations();
@@ -357,11 +357,15 @@ public class PlayerController : MonoBehaviour
             .SetEase(Ease.OutCirc)
             .OnComplete(() =>
             {
+                StartedDying = false;
+                if (_temporalManager.LevelEndReached() || _temporalManager.Reversing)
+                {
+                    return;
+                }
                 // HACK HACK HACK
                 var uiManager = FindObjectOfType<GameUIManager>();
                 uiManager.ShowReminderText(true);
                 IsDead = true;
-                _startedDying = false;
             });
     }
     
