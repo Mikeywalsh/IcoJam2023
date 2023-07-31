@@ -157,6 +157,7 @@ public class TemporalManager : MonoBehaviour
         RewindsLeft--;
         GameUIManager.UpdateRewindCount(RewindsLeft);
         AudioManager.Play("rewind");
+        AudioManager.Stop("countdown");
         
         foreach (var temporal in _allTemporals)
         {

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerAnimationController))]
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     private TemporalManager _temporalManager;
 
+    public bool IsDead;
+    
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -212,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryDash()
     {
-        if (DashUnlocked && (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown)))
+        if (IsDead || DashUnlocked && (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown)))
         {
             return;
         }
@@ -231,6 +234,11 @@ public class PlayerController : MonoBehaviour
 
     private void TryJump()
     {
+        if (IsDead)
+        {
+            return;
+        }
+        
         if (GroundedState == GroundedState.GROUNDED && !IsDashing && Time.time > _lastJumpTime + _jumpCooldown)
         {
             _lastJumpTime = Time.time;
@@ -322,7 +330,12 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("player died");
+        IsDead = true;
+
+        _animationController.PauseAnimations();
+        transform.DOScale(Vector3.zero, 1f)
+            .SetEase(Ease.Linear)
+            .OnComplete(LevelLoaderManager.RestartCurrentLevel);
     }
     
     private void OnStartedLevelExit(object sender, EventArgs e)
