@@ -8,8 +8,8 @@ namespace Traps
 {
     public class SwitchTemporal : BoolTemporal
     {
-        private List<MeshRenderer> _meshRenderers;
-        private Transform _toggle;
+        private MeshRenderer _handleMeshRenderer;
+        private Transform _toggleTransform;
         private bool _toggled;
         private Tween _toggleTween;
 
@@ -19,15 +19,18 @@ namespace Traps
         
         private readonly HashSet<GameObject> _standingObjects = new();
 
-        protected override void Start()        
+        protected override void Start()
         {
-            _meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
+            base.Start();
+            _toggleTransform = transform.GetChild(0);
+            _handleMeshRenderer = _toggleTransform.GetComponent<MeshRenderer>();
+            _toggled = !Triggered;
         }
         
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            _meshRenderers.ForEach(meshRenderer => meshRenderer.material = Triggered ? OnMaterial : OffMaterial);
+            _handleMeshRenderer.material = Triggered ? OnMaterial : OffMaterial;
             if (Triggered)
             {
                 MoveToggleOn();
@@ -35,13 +38,6 @@ namespace Traps
             {
                 MoveToggleOff();
             }
-            
-            if (_wasLockedLastFrame && _standingObjects.Count == 0)
-            {
-                TryToggle();
-            }
-
-            _wasLockedLastFrame = IsLocked();
         }
         
         private void MoveToggleOn()
@@ -53,7 +49,7 @@ namespace Traps
 
             _toggled = true;
             _toggleTween?.Kill();
-            _toggleTween = transform.GetChild(0).DOLocalRotate(new Vector3(130f, 0f, 0f), 0.2f)
+            _toggleTween = _toggleTransform.DOLocalRotate(new Vector3(-55f, 0f, 0f), 0.1f)
                 .SetEase(Ease.Linear);
         }
         
@@ -66,7 +62,7 @@ namespace Traps
 
             _toggled = false;
             _toggleTween?.Kill();
-            _toggleTween = transform.GetChild(0).DOLocalRotate(new Vector3(-130f, 0f, 0f), 0.2f)
+            _toggleTween = _toggleTransform.DOLocalRotate(new Vector3(-125f, 0f, 0f), 0.1f)
                 .SetEase(Ease.Linear);
         }
         
