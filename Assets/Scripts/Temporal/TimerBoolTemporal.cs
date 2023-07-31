@@ -10,6 +10,7 @@
 
         public override void Initialize(int bufferSize)
         {
+            base.Initialize(bufferSize);
             // Buffer pre-filled
             LockedEnd = bufferSize - 1;
 

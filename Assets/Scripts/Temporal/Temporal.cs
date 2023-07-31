@@ -81,7 +81,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     {
         if (_lockedIndicator != null)
         {
-            _lockedIndicator.gameObject.SetActive(IsLocked() && !Reversing && !_hasStartedReversing);
+            _lockedIndicator.gameObject.SetActive(ShouldDisplayLockedIcon() && IsLocked() && !Reversing && !_hasStartedReversing);
         }
         
         if (_informationText != null)
@@ -97,6 +97,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
     }
 
     protected virtual bool ShouldDisplayInformationText() => true;
+
+    protected virtual bool ShouldDisplayLockedIcon() => true;
 
     public bool IsLocked() => LockedEnd > CurrentFrame;
 

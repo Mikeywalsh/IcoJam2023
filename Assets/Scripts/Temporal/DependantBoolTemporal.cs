@@ -22,7 +22,6 @@ namespace Temporal
         protected override string GetInformationText()
         {
             var triggeredCount = BoolTemporals.Count(temporal => temporal.Triggered);
-
             return $"{triggeredCount}/{TriggersRequired}";
         }
         

@@ -16,6 +16,8 @@ namespace Traps
         private bool _wasLockedLastFrame;
 
         public Collider _triggerCollider;
+        private int _toggledFrame;
+
 
         protected override void Start()
         {
@@ -74,7 +76,13 @@ namespace Traps
 
             TryToggle();
         }
-        
+
+
+        protected override bool ShouldDisplayLockedIcon()
+        {
+            return _toggledFrame > CurrentFrame;
+        }
+
         private void TryToggle()
         {
             if (Reversing || IsLocked())
@@ -86,6 +94,7 @@ namespace Traps
             OnStateChanged();
             PlaySound(Triggered);
 
+            _toggledFrame = CurrentFrame;
             // Toggle only works once, fill the rest of the buffer with current value
             LockedEnd = TemporalBuffer.Length;
             for (var i = CurrentFrame; i < LockedEnd; i++)
