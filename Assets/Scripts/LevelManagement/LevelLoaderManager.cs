@@ -49,6 +49,10 @@ public class LevelLoaderManager : MonoBehaviour
         {
             return;
         }
+        // Hacky hacky hacky
+        var uiManager = FindObjectOfType<GameUIManager>();
+        uiManager.HideReminderText();
+        
         Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, false));
     }
     
@@ -66,8 +70,9 @@ public class LevelLoaderManager : MonoBehaviour
     private IEnumerator StartLevelExit(int sceneId, bool levelCompleted)
     {
         IsLevelLoaded = false;
-        
+
         OnStartedLevelExit();
+
         yield return LoadingScreenManager.Instance.StartFadeTransition();
         
         // Hack - I DONT CARE

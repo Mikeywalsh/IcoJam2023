@@ -45,12 +45,15 @@ public class PlayerController : MonoBehaviour
     public bool DoubleJumpUnlocked;
     public bool DashUnlocked;
 
+    private TemporalManager _temporalManager;
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _animationController = GetComponent<PlayerAnimationController>();
         _mainCamera = FindObjectOfType<CameraControl>();
+        _temporalManager = FindObjectOfType<TemporalManager>();
         _jumpParticles = GetComponentInChildren<ParticleSystem>();
         _dashTrailRenderer = GetComponent<TrailRenderer>();
         _dashTrailRenderer.enabled = false;
@@ -65,6 +68,7 @@ public class PlayerController : MonoBehaviour
         LevelLoaderManager.Instance.StartedLevelExit += OnStartedLevelExit;
     }
 
+    private bool _resetLevelQueued;
     private void TryResetLevel()
     {
         Time.timeScale = 1f;
@@ -102,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if ((_inputDisabled || _reversing) && LevelLoaderManager.Instance.IsLevelLoaded)
+        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached())
             return;
 
         RefreshMovementDirection();

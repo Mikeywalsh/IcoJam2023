@@ -28,7 +28,11 @@ public class TemporalManager : MonoBehaviour
     private bool _reversing;
     private bool _levelEnding;
 
+    private bool _timeStopped;
+
     private CameraControl _cameraControl;
+
+    public bool LevelEndReached() => _currentFrame >= MaxLevelFrames() - 1;
 
     private void Start()
     {
@@ -59,11 +63,25 @@ public class TemporalManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if ((_reversing || _levelEnding) && LevelLoaderManager.Instance.IsLevelLoaded)
+        if (_reversing || _levelEnding || !LevelLoaderManager.Instance.IsLevelLoaded)
             return;
         
         GameUIManager.SetFrame(_currentFrame, MaxLevelFrames());
-
+        
+        if (LevelEndReached())
+        {
+            // Hacked mess
+            if (!_timeStopped)
+            {
+                // Hacky hacky hacky
+                var uiManager = FindObjectOfType<GameUIManager>();
+                uiManager.ShowReminderText(false);
+                Time.timeScale = 0;
+                _timeStopped = true;
+            }
+            return;
+        }
+        
         var slowDownReached = _currentFrame >= SlowdownStart() - 1;
 
         if (slowDownReached)
@@ -72,17 +90,6 @@ public class TemporalManager : MonoBehaviour
 
             var newTimeScale = math.lerp(1, .2f, framesIntoSlowDown / (float) SLOWDOWN_FRAMES);
             Time.timeScale = newTimeScale;
-        }
-
-        var levelEndReached = _currentFrame >= MaxLevelFrames() - 1;
-        if (levelEndReached)
-        {
-            // Hacky hacky hacky
-            var uiManager = FindObjectOfType<GameUIManager>();
-            uiManager.ShowReminderText(false);
-            
-            Time.timeScale = 0;
-            return;
         }
 
         foreach (var temporal in _allTemporals)
@@ -100,6 +107,9 @@ public class TemporalManager : MonoBehaviour
 
     private void OnReverseFinished()
     {
+        // HACK HACK HACK
+        _timeStopped = false;
+        
         // Create past player
         var presentPlayerBufferCopy = _presentPlayer.CopyBuffer();
         var pastPlayer = Instantiate(PastPlayerTemporalPrefab, Vector3.zero, quaternion.identity);

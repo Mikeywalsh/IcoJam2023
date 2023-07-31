@@ -74,7 +74,7 @@ public class GameUIManager : MonoBehaviour
         }
         
         RestartReminderText.gameObject.SetActive(true);
-        RewindReminderText.gameObject.SetActive(!playerDied && LevelLoaderManager.CurrentLevelId != 1);
+        RewindReminderText.gameObject.SetActive(!playerDied && LevelLoaderManager.CurrentLevelId != 0);
     }
     
     public void UpdateRewindCount(int rewindCount)
