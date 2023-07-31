@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -27,6 +28,11 @@ public class AudioManager : MonoBehaviour
         }
 
         Play("main-theme");
+    }
+
+    private void FixedUpdate()
+    {
+        TryPlay("main-theme");
     }
 
     public static void ToggleMute()
