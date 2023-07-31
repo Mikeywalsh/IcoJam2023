@@ -39,22 +39,17 @@ public class RigidbodySpatialTemporal : SpatialTemporal
     {
         if (other == null || Reversing)
         {
-            AudioManager.Stop("box-drag");
             return;
         }
-            
 
         var thisRigidbodyStationary = _rigidbody.velocity.magnitude < float.Epsilon;
         var otherRigidbodyStationary = other._rigidbody.velocity.magnitude < float.Epsilon;
 
         if (thisRigidbodyStationary && otherRigidbodyStationary)
         {
-            AudioManager.Stop("box-drag");
             return;
         }
 
         LockedEnd = CurrentFrame;
-        Debug.Log("play drag sound");
-        AudioManager.TryPlay("box-drag");
     }
 }

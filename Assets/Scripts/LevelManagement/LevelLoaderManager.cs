@@ -65,6 +65,11 @@ public class LevelLoaderManager : MonoBehaviour
             return;
         }
 
+        // Hack - I DONT CARE
+        var gameUIManager = FindObjectOfType<GameUIManager>();
+        gameUIManager.HideReminderText();
+        gameUIManager.SecondsLeftText.gameObject.SetActive(false);
+        
         CurrentLevelId++;
         Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, true));
     }

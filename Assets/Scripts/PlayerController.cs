@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private bool _airborneDashAvailable;
     private bool _reversing;
 
+    private Rigidbody _rigidbody;
+
     public bool DoubleJumpUnlocked;
     public bool DashUnlocked;
 
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _animationController = GetComponent<PlayerAnimationController>();
+        _rigidbody = GetComponent<Rigidbody>();
         _mainCamera = FindObjectOfType<CameraControl>();
         _temporalManager = FindObjectOfType<TemporalManager>();
         _jumpParticles = GetComponentInChildren<ParticleSystem>();
@@ -111,6 +114,9 @@ public class PlayerController : MonoBehaviour
     {
         if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead)
             return;
+        
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
         RefreshMovementDirection();
 
@@ -340,7 +346,7 @@ public class PlayerController : MonoBehaviour
 
         _animationController.PauseAnimations();
         transform.DOScale(Vector3.zero, 1f)
-            .SetEase(Ease.OutQuad)
+            .SetEase(Ease.OutCirc)
             .OnComplete(() =>
             {
                 // HACK HACK HACK

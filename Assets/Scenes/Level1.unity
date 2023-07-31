@@ -5271,6 +5271,21 @@ PrefabInstance:
       propertyPath: LevelLengthSeconds
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5444570917668723343, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444570917668723343, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444570917668723343, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.m_ColorSpace
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7334020758818830393, guid: 0f930649591056249913f6b20b6aba29,
         type: 3}
       propertyPath: m_LocalPosition.x
