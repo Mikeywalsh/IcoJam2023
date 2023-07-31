@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Temporal;
 using UnityEngine;
 
@@ -18,8 +16,6 @@ namespace Traps
         private bool _wasLockedLastFrame;
 
         public Collider _triggerCollider;
-        
-        private readonly HashSet<GameObject> _standingObjects = new();
 
         protected override void Start()
         {
@@ -75,15 +71,11 @@ namespace Traps
             {
                 return;
             }
-            _standingObjects.Add(other.gameObject);
 
-            if (_standingObjects.Count > 0)
-            {
-                TryToggle();
-            }
+            TryToggle();
         }
         
-        protected void TryToggle()
+        private void TryToggle()
         {
             if (Reversing || IsLocked())
             {
@@ -92,18 +84,14 @@ namespace Traps
             _triggerCollider.enabled = false;
             Triggered = !Triggered;
             OnStateChanged();
-            OnInteractedWith();
             PlaySound(Triggered);
-        }
-        
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.GetComponent<ITemporal>() == null)
+
+            // Toggle only works once, fill the rest of the buffer with current value
+            LockedEnd = TemporalBuffer.Length;
+            for (var i = CurrentFrame; i < LockedEnd; i++)
             {
-                return;
+                TemporalBuffer[i] = new BoolTemporalState(Triggered);
             }
-            
-            _standingObjects.Remove(other.gameObject);
         }
     }
 }
