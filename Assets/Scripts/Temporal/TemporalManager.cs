@@ -21,12 +21,12 @@ public class TemporalManager : MonoBehaviour
     private int _frameAtReset;
     private List<ITemporal> _allTemporals;
     private bool _reversing;
+    private bool _levelEnding;
 
     private CameraControl _cameraControl;
 
     private void Start()
     {
-
         _presentPlayer = FindObjectOfType<PresentPlayerTemporal>();
         _cameraControl = FindObjectOfType<CameraControl>();
         _allTemporals = new List<ITemporal>();
@@ -46,11 +46,12 @@ public class TemporalManager : MonoBehaviour
 
         _allTemporals = _allTemporals.OrderBy(temporal => temporal.ExecutionOrder()).ToList();
         InputActionsManager.InputActions.Player.Reverse.started += _ => StartReset();
+        LevelLoaderManager.Instance.StartedLevelExit += OnStartedLevelExit;
     }
 
     private void FixedUpdate()
     {
-        if (_reversing)
+        if (_reversing || _levelEnding)
             return;
 
         var slowDownReached = _currentFrame >= SLOWDOWN_START - 1;
@@ -94,6 +95,17 @@ public class TemporalManager : MonoBehaviour
 
         _reversing = false;
         _currentFrame = 0;
+    }
+
+    public void OnStartedLevelExit(object sender, EventArgs args)
+    {
+        Time.timeScale = 1;
+        _levelEnding = true;
+    }
+
+    private void OnDestroy()
+    {
+        LevelLoaderManager.Instance.StartedLevelExit -= OnStartedLevelExit;
     }
 
     public void StartReset()

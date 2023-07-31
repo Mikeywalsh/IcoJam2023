@@ -27,11 +27,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
         _lockedIndicatorPrefab = Resources.Load("LockedIndicator") as GameObject;
         _informationTextPrefab = Resources.Load("InformationText") as GameObject;
 
-        if (LockedIndicatorAnchor == null)
-        {
-            Debug.Log($"Object: {gameObject.name} does not have a locked indicator anchor...");
-        }
-        else
+        if (LockedIndicatorAnchor != null)
         {
             _lockedIndicator = Instantiate(_lockedIndicatorPrefab, LockedIndicatorAnchor.position, Quaternion.identity);
             _lockedIndicator.transform.localScale = Vector3.one * LockedIndicatorScale;
@@ -40,11 +36,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
         }
 
 
-        if (InformationDisplayAnchor == null)
-        {
-            Debug.Log($"Object: {gameObject.name} does not have a information text anchor...");
-        }
-        else
+        if (InformationDisplayAnchor != null)
         {
             _informationText = Instantiate(_informationTextPrefab, InformationDisplayAnchor.position, Quaternion.identity).GetComponent<InformationText>();
             _informationText.transform.localScale = Vector3.one * .35f;

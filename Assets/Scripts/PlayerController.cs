@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 [RequireComponent(typeof(PlayerAnimationController))]
 public class PlayerController : MonoBehaviour
 {
@@ -55,8 +54,15 @@ public class PlayerController : MonoBehaviour
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
-        InputActionsManager.InputActions.Player.Jump.started += _ => TryJump();
+        InputActionsManager.InputActions.Player.Jump.started += _ =>
+        {
+            LevelLoaderManager.MoveToLevel(0);
+            TryJump();
+        };
         InputActionsManager.InputActions.Player.Dash.started += _ => TryDash();
+
+
+        LevelLoaderManager.Instance.StartedLevelExit += OnStartedLevelExit;
     }
 
     private void RefreshMovementDirection()
@@ -308,6 +314,16 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         Debug.Log("player died");
+    }
+    
+    private void OnStartedLevelExit(object sender, EventArgs e)
+    {
+        DisableInputAndAnimations();
+    }
+
+    private void OnDestroy()
+    {
+        LevelLoaderManager.Instance.StartedLevelExit -= OnStartedLevelExit;
     }
 
     public void OnDrawGizmos()
