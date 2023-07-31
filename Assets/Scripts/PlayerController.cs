@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
     private bool _airborneDashAvailable;
     private bool _reversing;
 
+    public bool DoubleJumpUnlocked;
+    public bool DashUnlocked;
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -112,7 +115,7 @@ public class PlayerController : MonoBehaviour
         var moveableRay = new Ray(transform.position, Vector3.down);
         var hitMoveable = Physics.Raycast(moveableRay, out var hitInfo, 1f, moveableMask);
 
-        if (hitMoveable && _currentMoveableParent != null)
+        if (hitMoveable)
         {
             var moveable = hitInfo.transform;
             transform.parent = moveable;
@@ -204,7 +207,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryDash()
     {
-        if (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown))
+        if (DashUnlocked && (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown)))
         {
             return;
         }
@@ -235,7 +238,7 @@ public class PlayerController : MonoBehaviour
             _jumpParticles.Play();
             AudioManager.Play("jump");
         }
-        else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable)
+        else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable && DoubleJumpUnlocked)
         {
             VerticalSpeed = PlayerMovementSettings.JumpSpeed;
             _secondJumpAvailable = false;
