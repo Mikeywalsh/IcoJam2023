@@ -18,7 +18,7 @@ public class GameUIManager : MonoBehaviour
             Vector3.one + (Vector3.one * (0.5f * (secondsLeft - math.floor(secondsLeft))));
 
         var shouldShow = LevelLoaderManager.Instance.IsLevelLoaded &&
-                         math.floor(secondsLeft) <= 10 &&
+                         math.floor(secondsLeft) <= Mathf.RoundToInt(maxFrames / (float)TemporalManager.FRAMES_PER_SECOND) &&
                          currentFrame < maxFrames - 1;
         
         SecondsLeftText.gameObject.SetActive(shouldShow);
