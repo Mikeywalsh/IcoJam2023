@@ -23,25 +23,6 @@
             }
         }
 
-        protected void TryToggle()
-        {
-            if (Reversing || IsLocked())
-            {
-                return;
-            }
-            Triggered = !Triggered;
-            OnStateChanged();
-            OnInteractedWith();
-            PlaySound(Triggered);
-            
-            // Toggle only works once
-            LockedEnd = TemporalBuffer.Length;
-            for (var i = CurrentFrame; i < LockedEnd; i++)
-            {
-                TemporalBuffer[i] = new BoolTemporalState(Triggered);
-            }
-        }
-
         protected virtual void OnStateChanged()
         {
         }
@@ -73,7 +54,7 @@
             PlaySound(false);
         }
 
-        private void PlaySound(bool on)
+        protected void PlaySound(bool on)
         {
             AudioManager.Play(on ? "button-on" : "button-off");
         }

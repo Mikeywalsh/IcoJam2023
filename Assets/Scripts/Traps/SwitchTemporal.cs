@@ -16,12 +16,15 @@ namespace Traps
         public Material OnMaterial;
         public Material OffMaterial;
         private bool _wasLockedLastFrame;
+
+        public Collider _triggerCollider;
         
         private readonly HashSet<GameObject> _standingObjects = new();
 
         protected override void Start()
         {
             base.Start();
+            _triggerCollider = GetComponent<Collider>();
             _toggleTransform = transform.GetChild(0);
             _handleMeshRenderer = _toggleTransform.GetComponent<MeshRenderer>();
             _toggled = !Triggered;
@@ -74,10 +77,23 @@ namespace Traps
             }
             _standingObjects.Add(other.gameObject);
 
-            if (_standingObjects.Count == 1)
+            if (_standingObjects.Count > 0)
             {
                 TryToggle();
             }
+        }
+        
+        protected void TryToggle()
+        {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
+            _triggerCollider.enabled = false;
+            Triggered = !Triggered;
+            OnStateChanged();
+            OnInteractedWith();
+            PlaySound(Triggered);
         }
         
         private void OnTriggerExit(Collider other)

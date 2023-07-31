@@ -215,7 +215,13 @@ public class PlayerController : MonoBehaviour
 
     private void TryDash()
     {
-        if (IsDead || DashUnlocked && (IsDashing || !_airborneDashAvailable || !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown)))
+        if (IsDead || !DashUnlocked)
+        {
+            return;
+        }
+
+        if (IsDashing || !_airborneDashAvailable ||
+             !(Time.time > _lastDashTime + PlayerMovementSettings.DashCooldown))
         {
             return;
         }
@@ -334,8 +340,13 @@ public class PlayerController : MonoBehaviour
 
         _animationController.PauseAnimations();
         transform.DOScale(Vector3.zero, 1f)
-            .SetEase(Ease.Linear)
-            .OnComplete(LevelLoaderManager.RestartCurrentLevel);
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                // HACK HACK HACK
+                var uiManager = FindObjectOfType<GameUIManager>();
+                uiManager.ShowReminderText(true);
+            });
     }
     
     private void OnStartedLevelExit(object sender, EventArgs e)

@@ -55,7 +55,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -74,9 +74,11 @@ MonoBehaviour:
   LockedIndicatorAnchor: {fileID: 6727238597669839466}
   InformationDisplayAnchor: {fileID: 0}
   LockedIndicatorScale: 0.35
+  InformationTextScale: 0
   Triggered: 0
   OnMaterial: {fileID: 2100000, guid: 5d4840c134ca49445bb60d3a36a25173, type: 2}
   OffMaterial: {fileID: 2100000, guid: db5c2ce43c8bb0a458f2e8cc0b2adbcc, type: 2}
+  _triggerCollider: {fileID: 0}
 --- !u!1 &7803415529375425822
 GameObject:
   m_ObjectHideFlags: 0

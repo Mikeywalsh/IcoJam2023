@@ -62,6 +62,12 @@ public class GameUIManager : MonoBehaviour
     
     public void ShowReminderText(bool playerDied)
     {
+        if (playerDied)
+        {
+            SecondsLeftText.gameObject.SetActive(true);
+            SecondsLeftText.text = "You died!";
+        }
+        
         if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
         {
             RestartReminderText.text = "Press 'L' to restart";
