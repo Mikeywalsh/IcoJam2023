@@ -75,7 +75,7 @@ public class LevelLoaderManager : MonoBehaviour
         if (gameUIManager.EndOfLevelText != null && levelCompleted)
         {
             gameUIManager.DisplayEndOfLevelText();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             gameUIManager.HideEndOfLevelText();
         }
         yield return SceneManager.LoadSceneAsync(sceneId);
