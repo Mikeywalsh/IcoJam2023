@@ -89,7 +89,6 @@ public class LoadingScreenManager : MonoBehaviour
 
         LoadingScreenCanvas.gameObject.SetActive(false);
         LoadingScreenCamera.gameObject.SetActive(false);
-        Debug.Log("Ending fade");
         IsTransitionActive = false;
     }
 

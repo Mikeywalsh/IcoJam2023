@@ -54,15 +54,17 @@ public class PlayerController : MonoBehaviour
         InputActionsManager.InputActions.Player.Move.performed += ctx => MoveDirectionInput = -ctx.ReadValue<Vector2>();
         InputActionsManager.InputActions.Player.Move.canceled += _ => MoveDirectionInput = Vector2.zero;
 
-        InputActionsManager.InputActions.Player.Jump.started += _ =>
-        {
-            LevelLoaderManager.MoveToLevel(0);
-            TryJump();
-        };
+        InputActionsManager.InputActions.Player.Jump.started += _ => TryJump();
+        InputActionsManager.InputActions.Player.ResetLevel.started += _ => TryResetLevel();
         InputActionsManager.InputActions.Player.Dash.started += _ => TryDash();
 
 
         LevelLoaderManager.Instance.StartedLevelExit += OnStartedLevelExit;
+    }
+
+    private void TryResetLevel()
+    {
+        LevelLoaderManager.RestartCurrentLevel();
     }
 
     private void RefreshMovementDirection()
@@ -277,13 +279,11 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("WHY");
 
         var temporal = otherRigidbody.GetComponent<RigidbodySpatialTemporal>();
 
         if (temporal == null)
             return;
-        Debug.Log("WHY2");
 
         temporal.OnInteractedWith();
     }

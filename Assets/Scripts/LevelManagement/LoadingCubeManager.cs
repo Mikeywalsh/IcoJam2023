@@ -43,9 +43,6 @@ public class LoadingCubeManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_isLoading)
-            return;
-
         _rotateAxis = Quaternion.AngleAxis(4f,
             new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f))) * _rotateAxis;
 

@@ -21,8 +21,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        DontDestroyOnLoad(gameObject);
-
         foreach (var sound in sounds)
         {
             _soundsDictionary.Add(sound.name, sound);
