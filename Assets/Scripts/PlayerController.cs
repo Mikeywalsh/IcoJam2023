@@ -224,6 +224,7 @@ public class PlayerController : MonoBehaviour
             _secondJumpAvailable = true;
             _animationController.Jump();
             _jumpParticles.Play();
+            AudioManager.Play("jump");
         }
         else if (GroundedState == GroundedState.AIRBORNE && _secondJumpAvailable)
         {
@@ -231,6 +232,7 @@ public class PlayerController : MonoBehaviour
             _secondJumpAvailable = false;
             _animationController.DoubleJump();
             _jumpParticles.Play();
+            AudioManager.Play("jump");
         }
     }
 

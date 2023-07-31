@@ -32,6 +32,7 @@
             Triggered = !Triggered;
             OnStateChanged();
             OnInteractedWith();
+            PlaySound(Triggered);
         }
 
         protected virtual void OnStateChanged()
@@ -43,6 +44,10 @@
             if (Reversing || IsLocked())
             {
                 return;
+            }
+            if (!Triggered)
+            {
+                PlaySound(true);
             }
             Triggered = true;
             OnStateChanged();
@@ -58,6 +63,12 @@
             Triggered = false;
             OnStateChanged();
             OnInteractedWith();
+            PlaySound(false);
+        }
+
+        private void PlaySound(bool on)
+        {
+            AudioManager.Play(on ? "button-on" : "button-off");
         }
     }
 }

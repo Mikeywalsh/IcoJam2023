@@ -60,6 +60,11 @@ namespace Traps
             _leftDoorMiddleTween?.Kill();
             _leftDoorMiddleTween = transform.GetChild(3).DOLocalMoveX(-.95f, 0.2f)
                 .SetEase(Ease.Linear);
+
+            if (!Reversing)
+            {
+                AudioManager.Play("door-open");
+            }
         }
         
         private void Close()
@@ -70,7 +75,6 @@ namespace Traps
             }
 
             _open = false;
-            
             // Door move
             _rightDoorPositionTween?.Kill();
             _rightDoorPositionTween = transform.GetChild(0).DOLocalMoveX(0f, 0.2f)
@@ -96,6 +100,10 @@ namespace Traps
             _leftDoorMiddleTween = transform.GetChild(3).DOLocalMoveX(0f, 0.2f)
                 .SetEase(Ease.Linear);
             
+            if (!Reversing)
+            {
+                AudioManager.Play("door-close");
+            }
         }
 
         protected override string GetInformationText()
