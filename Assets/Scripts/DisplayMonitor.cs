@@ -14,14 +14,11 @@ public class DisplayMonitor : MonoBehaviour
     {
         _text = GetComponentInChildren<TextMeshPro>();
         _templateText = _text.text;
-        
-        InputActionsManager.Instance.InputSchemeChanged += InputSchemeChanged;
     }
 
-    private void InputSchemeChanged(object sender, InputSchemeChangedEventArgs e)
+    private void FixedUpdate()
     {
-        var argsToUse = e.NewInputScheme == InputScheme.MOUSE_KEYBOARD ? KeyboardMouseArgs : ControllerArgs;
-        // ReSharper disable once CoVariantArrayConversion
+        var argsToUse = InputActionsManager.CurrentInputScheme == InputScheme.CONTROLLER ? ControllerArgs : KeyboardMouseArgs;
         _text.text = string.Format(_templateText, argsToUse);
     }
 }
