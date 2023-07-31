@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
     private bool _resetLevelQueued;
     private void TryResetLevel()
     {
+        if (_temporalManager.Reversing)
+        {
+            return;
+        }
         Time.timeScale = 1f;
         LevelLoaderManager.RestartCurrentLevel();
     }
