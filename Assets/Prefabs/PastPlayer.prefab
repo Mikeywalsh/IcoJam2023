@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LockedIndicatorAnchor: {fileID: 0}
+  InformationDisplayAnchor: {fileID: 0}
   LockedIndicatorScale: 0.5
+  InformationTextScale: 0
   AllTransforms:
   - {fileID: 2212970662749754948}
   - {fileID: 9192025976124408527}
@@ -55,6 +57,8 @@ MonoBehaviour:
   - {fileID: 6261913164895684886}
   - {fileID: 1653237723068375024}
   _pastPlayerResetEffect: {fileID: 6117625440465958914, guid: 40976a36b448ba5478d9bc7bde8cce79,
+    type: 3}
+  _pastPlayerDeathEffect: {fileID: 6117625440465958914, guid: 40976a36b448ba5478d9bc7bde8cce79,
     type: 3}
 --- !u!1001 &8654259947819918628
 PrefabInstance:

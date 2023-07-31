@@ -25,7 +25,7 @@ public class TemporalManager : MonoBehaviour
     private int _currentFrame;
     private int _frameAtReset;
     private List<ITemporal> _allTemporals;
-    private bool _reversing;
+    public bool Reversing;
     private bool _levelEnding;
 
     private bool _timeStopped;
@@ -63,7 +63,7 @@ public class TemporalManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_reversing || _levelEnding || !LevelLoaderManager.Instance.IsLevelLoaded || _presentPlayer.GetComponent<PlayerController>().IsDead)
+        if (Reversing || _levelEnding || !LevelLoaderManager.Instance.IsLevelLoaded || _presentPlayer.GetComponent<PlayerController>().IsDead)
             return;
         
         GameUIManager.SetFrame(_currentFrame, MaxLevelFrames());
@@ -124,7 +124,7 @@ public class TemporalManager : MonoBehaviour
             temporal.ResetTemporal();
         }
 
-        _reversing = false;
+        Reversing = false;
         _currentFrame = 0;
     }
 
@@ -141,7 +141,7 @@ public class TemporalManager : MonoBehaviour
 
     public void TryStartReverse()
     {
-        if (_currentFrame == 0 || _reversing || RewindsLeft == 0)
+        if (_currentFrame == 0 || Reversing || RewindsLeft == 0)
         {
             return;
         }
@@ -151,7 +151,7 @@ public class TemporalManager : MonoBehaviour
         uiManager.HideReminderText();
         
         Time.timeScale = 1;
-        _reversing = true;
+        Reversing = true;
         _currentFrame -= 1;
         _frameAtReset = _currentFrame;
 
