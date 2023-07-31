@@ -190,8 +190,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -106}
-  m_SizeDelta: {x: 238.6912, y: 143.2635}
+  m_AnchoredPosition: {x: -1.4452, y: -92}
+  m_SizeDelta: {x: 510.1158, y: 143.2635}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7240917568497406333
 CanvasRenderer:
@@ -977,8 +977,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 119.35, y: 83}
-  m_SizeDelta: {x: 238.6912, y: 92.9178}
+  m_AnchoredPosition: {x: 124, y: 83}
+  m_SizeDelta: {x: 238.69, y: 92.9178}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5364106940512467339
 CanvasRenderer:
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98adb3f460414bc45905d1a22fdc8869, type: 2}
   m_sharedMaterial: {fileID: -2415200174895774105, guid: 98adb3f460414bc45905d1a22fdc8869,
@@ -1217,6 +1217,30 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3549685424165081663}
   m_SourcePrefab: {fileID: 100100000, guid: 25dc1da732831194b96d9a633c62ed31, type: 3}
+--- !u!114 &2877787308568770543 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4440800755262837916, guid: 25dc1da732831194b96d9a633c62ed31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1895752167900586867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3443055889477875362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3857088558015780305, guid: 25dc1da732831194b96d9a633c62ed31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1895752167900586867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4038110236951010226 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2469431995230419137, guid: 25dc1da732831194b96d9a633c62ed31,
@@ -1237,8 +1261,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SecondsLeftText: {fileID: 1993832380205248235}
   RewindsLeftText: {fileID: 8029728025936991217}
-  RewindIcon: {fileID: 0}
+  RewindText: {fileID: 7977791211242289137}
   EndOfLevelText: {fileID: 0}
+  RewindReminderText: {fileID: 2877787308568770543}
+  RestartReminderText: {fileID: 3443055889477875362}
 --- !u!224 &5932637843989991263 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5195999631992171564, guid: 25dc1da732831194b96d9a633c62ed31,

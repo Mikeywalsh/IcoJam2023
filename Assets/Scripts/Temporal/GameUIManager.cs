@@ -3,41 +3,90 @@ using System.Globalization;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
     public TextMeshProUGUI SecondsLeftText;
     public TextMeshProUGUI RewindsLeftText;
-    public Image RewindIcon;
+    public TextMeshProUGUI RewindText;
     public GameObject EndOfLevelText;
+    
+    public TextMeshProUGUI RewindReminderText;
+    public TextMeshProUGUI RestartReminderText;
 
     public void SetFrame(int currentFrame, int maxFrames)
     {
         var framesLeft = maxFrames - currentFrame;
         var secondsLeft = (framesLeft / (float) TemporalManager.FRAMES_PER_SECOND) + 1;
 
-        SecondsLeftText.text = math.floor(secondsLeft).ToString(CultureInfo.InvariantCulture);
 
+        var baseScale = Vector3.one * 0.7f;
         SecondsLeftText.rectTransform.localScale =
-            Vector3.one + (Vector3.one * (0.5f * (secondsLeft - math.floor(secondsLeft))));
+            baseScale + (baseScale * (0.5f * (secondsLeft - math.floor(secondsLeft))));
 
         var shouldShow = LevelLoaderManager.Instance.IsLevelLoaded &&
                          math.floor(secondsLeft) <=
-                         Mathf.RoundToInt(maxFrames / (float) TemporalManager.FRAMES_PER_SECOND) &&
-                         currentFrame < maxFrames - 1;
+                         Mathf.RoundToInt(maxFrames / (float) TemporalManager.FRAMES_PER_SECOND);
 
+        string textToDisplay;
+
+        if (currentFrame >= maxFrames - 1)
+        {
+            textToDisplay = "Time's up!";
+        }
+        else
+        {
+            textToDisplay= math.floor(secondsLeft).ToString(CultureInfo.InvariantCulture);
+        }
+
+        SecondsLeftText.text = textToDisplay;
         SecondsLeftText.gameObject.SetActive(shouldShow);
-        RewindsLeftText.gameObject.SetActive(shouldShow);
     }
 
     private void Update()
     {
-        RewindIcon.gameObject.SetActive(LevelLoaderManager.Instance.IsLevelLoaded);
+        bool shouldDisplayRewindsLeft = LevelLoaderManager.Instance != null && LevelLoaderManager.Instance.IsLevelLoaded && LevelLoaderManager.CurrentLevelId != 0;
+        
+        RewindsLeftText.gameObject.SetActive(shouldDisplayRewindsLeft);
+        RewindText.gameObject.SetActive(shouldDisplayRewindsLeft);
+    }
+
+    public void HideReminderText()
+    {
+        // Hack
+        SecondsLeftText.text = string.Empty;
+        
+        RestartReminderText.gameObject.SetActive(false);
+        RewindReminderText.gameObject.SetActive(false);
+    }
+    
+    public void ShowReminderText(bool playerDied)
+    {
+        if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
+        {
+            RestartReminderText.text = "Press 'L' to restart";
+            RewindReminderText.text = "Press 'R' to rewind";
+        }
+        else
+        {
+            RestartReminderText.text = "Press 'Left Trigger' to rewind";
+            RewindReminderText.text = "Press 'B' to restart";
+        }
+        
+        RestartReminderText.gameObject.SetActive(true);
+        RewindReminderText.gameObject.SetActive(!playerDied && LevelLoaderManager.CurrentLevelId != 1);
     }
     
     public void UpdateRewindCount(int rewindCount)
     {
+        if (rewindCount == 1)
+        {
+            RewindText.text = "Rewind";
+        }
+        else
+        {
+            RewindText.text = "Rewinds";
+        }
         RewindsLeftText.text = rewindCount.ToString();
     }
 

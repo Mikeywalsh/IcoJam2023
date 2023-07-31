@@ -77,6 +77,10 @@ public class TemporalManager : MonoBehaviour
         var levelEndReached = _currentFrame >= MaxLevelFrames() - 1;
         if (levelEndReached)
         {
+            // Hacky hacky hacky
+            var uiManager = FindObjectOfType<GameUIManager>();
+            uiManager.ShowReminderText(false);
+            
             Time.timeScale = 0;
             return;
         }
@@ -130,6 +134,11 @@ public class TemporalManager : MonoBehaviour
         {
             return;
         }
+
+        // Hacky hacky hacky
+        var uiManager = FindObjectOfType<GameUIManager>();
+        uiManager.HideReminderText();
+        
         Time.timeScale = 1;
         _reversing = true;
         _currentFrame -= 1;

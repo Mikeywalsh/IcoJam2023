@@ -12,7 +12,7 @@ public class LevelLoaderManager : MonoBehaviour
     public EventHandler FinishedLoadingLevel;
     public EventHandler FinishedLevelIntroTransition;
 
-    private static int _currentLevelId;
+    public static int CurrentLevelId;
 
     private void Awake()
     {
@@ -49,7 +49,7 @@ public class LevelLoaderManager : MonoBehaviour
         {
             return;
         }
-        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId, false));
+        Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, false));
     }
     
     public static void MoveToNextLevel()
@@ -59,8 +59,8 @@ public class LevelLoaderManager : MonoBehaviour
             return;
         }
 
-        _currentLevelId++;
-        Instance.StartCoroutine(Instance.StartLevelExit(_currentLevelId, true));
+        CurrentLevelId++;
+        Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, true));
     }
     
     private IEnumerator StartLevelExit(int sceneId, bool levelCompleted)

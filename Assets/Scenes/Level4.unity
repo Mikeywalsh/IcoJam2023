@@ -843,6 +843,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Objects
       objectReference: {fileID: 0}
+    - target: {fileID: 1993832380205248235, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: m_text
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3549685424165081663, guid: 0f930649591056249913f6b20b6aba29,
         type: 3}
       propertyPath: EndOfLevelText
@@ -902,6 +907,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029728025936991217, guid: 0f930649591056249913f6b20b6aba29,
+        type: 3}
+      propertyPath: m_text
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryResetLevel()
     {
+        Time.timeScale = 1f;
         LevelLoaderManager.RestartCurrentLevel();
     }
 
