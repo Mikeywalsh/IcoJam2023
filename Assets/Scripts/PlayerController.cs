@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached())
+        if (_inputDisabled || _reversing || !LevelLoaderManager.Instance.IsLevelLoaded || _temporalManager.LevelEndReached() || IsDead)
             return;
 
         RefreshMovementDirection();

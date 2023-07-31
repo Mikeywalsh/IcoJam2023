@@ -63,7 +63,7 @@ public class TemporalManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_reversing || _levelEnding || !LevelLoaderManager.Instance.IsLevelLoaded)
+        if (_reversing || _levelEnding || !LevelLoaderManager.Instance.IsLevelLoaded || _presentPlayer.GetComponent<PlayerController>().IsDead)
             return;
         
         GameUIManager.SetFrame(_currentFrame, MaxLevelFrames());
