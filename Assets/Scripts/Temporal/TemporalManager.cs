@@ -76,6 +76,11 @@ public class TemporalManager : MonoBehaviour
             temporal.UpdateTemporalState(_currentFrame, false);
         }
 
+        if (_currentFrame + 3 * FRAMES_PER_SECOND > MAX_LEVEL_FRAMES)
+        {
+            AudioManager.TryPlay("countdown");
+        }
+
         _currentFrame++;
     }
 

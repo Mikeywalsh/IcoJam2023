@@ -1,4 +1,6 @@
-﻿namespace Temporal
+﻿using UnityEngine;
+
+namespace Temporal
 {
     public abstract class BoolTemporal : Temporal<BoolTemporalState>
     {
@@ -33,6 +35,13 @@
             OnStateChanged();
             OnInteractedWith();
             PlaySound(Triggered);
+            
+            // Toggle only works once
+            LockedEnd = TemporalBuffer.Length;
+            for (var i = CurrentFrame; i < LockedEnd; i++)
+            {
+                TemporalBuffer[i] = new BoolTemporalState(Triggered);
+            }
         }
 
         protected virtual void OnStateChanged()

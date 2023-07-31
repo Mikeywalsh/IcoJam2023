@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8086351692090191570}
   - component: {fileID: 288699953249769312}
   m_Layer: 0
-  m_Name: LaserCanonShootingPoint
+  m_Name: LaserShootingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
