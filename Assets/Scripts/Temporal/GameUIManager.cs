@@ -2,10 +2,13 @@
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
     public TextMeshProUGUI SecondsLeftText;
+    public TextMeshProUGUI RewindsLeftText;
+    public Image RewindIcon;
     
     public void SetFrame(int currentFrame, int maxFrames)
     {
@@ -22,5 +25,12 @@ public class GameUIManager : MonoBehaviour
                          currentFrame < maxFrames - 1;
         
         SecondsLeftText.gameObject.SetActive(shouldShow);
+        RewindsLeftText.gameObject.SetActive(shouldShow);
+        RewindIcon.gameObject.SetActive(shouldShow);
+    }
+
+    public void UpdateRewindCount(int rewindCount)
+    {
+        RewindsLeftText.text = "x" + rewindCount;
     }
 }

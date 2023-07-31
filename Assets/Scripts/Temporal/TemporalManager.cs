@@ -11,7 +11,8 @@ public class TemporalManager : MonoBehaviour
     private const int SLOWDOWN_FRAMES = 50;
 
     public int LevelLengthSeconds;
-
+    public int RewindsLeft = 3;
+    
     public GameUIManager GameUIManager;
     
     public int MaxLevelFrames() => FRAMES_PER_SECOND * LevelLengthSeconds;
@@ -48,9 +49,11 @@ public class TemporalManager : MonoBehaviour
             temporalGameObject.Initialize(MaxLevelFrames());
             _allTemporals.Add(temporalGameObject);
         }
+        
+        GameUIManager.UpdateRewindCount(RewindsLeft);
 
         _allTemporals = _allTemporals.OrderBy(temporal => temporal.ExecutionOrder()).ToList();
-        InputActionsManager.InputActions.Player.Reverse.started += _ => StartReset();
+        InputActionsManager.InputActions.Player.Reverse.started += _ => TryStartReverse();
         LevelLoaderManager.Instance.StartedLevelExit += OnStartedLevelExit;
     }
 
@@ -121,17 +124,19 @@ public class TemporalManager : MonoBehaviour
         LevelLoaderManager.Instance.StartedLevelExit -= OnStartedLevelExit;
     }
 
-    public void StartReset()
+    public void TryStartReverse()
     {
-        if (_currentFrame == 0 || _reversing)
+        if (_currentFrame == 0 || _reversing || RewindsLeft == 0)
         {
             return;
         }
-
         Time.timeScale = 1;
         _reversing = true;
         _currentFrame -= 1;
         _frameAtReset = _currentFrame;
+
+        RewindsLeft--;
+        GameUIManager.UpdateRewindCount(RewindsLeft);
         AudioManager.Play("rewind");
         
         foreach (var temporal in _allTemporals)
