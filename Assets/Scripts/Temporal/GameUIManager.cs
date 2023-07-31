@@ -14,6 +14,24 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI RewindReminderText;
     public TextMeshProUGUI RestartReminderText;
 
+    private TemporalManager _temporalManager;
+
+    private void Start()
+    {
+        _temporalManager = FindObjectOfType<TemporalManager>();
+        
+        if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
+        {
+            RestartReminderText.text = "Press 'L' to restart";
+            RewindReminderText.text = "Press 'R' to rewind";
+        }
+        else
+        {
+            RestartReminderText.text = "Press 'B' to restart";
+            RewindReminderText.text = "Press 'Left Trigger' to rewind";
+        }
+    }
+    
     public void SetFrame(int currentFrame, int maxFrames)
     {
         var framesLeft = maxFrames - currentFrame;
@@ -80,7 +98,7 @@ public class GameUIManager : MonoBehaviour
         }
 
         RestartReminderText.gameObject.SetActive(true);
-        RewindReminderText.gameObject.SetActive(LevelLoaderManager.CurrentLevelId != 0);
+        RewindReminderText.gameObject.SetActive(LevelLoaderManager.CurrentLevelId != 0 && _temporalManager.RewindsLeft > 0);
     }
     
     public void UpdateRewindCount(int rewindCount)
