@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 7938427310466537178}
   - component: {fileID: 8188013039501915324}
   - component: {fileID: 4576285156003861697}
+  - component: {fileID: 5875105983950301818}
   m_Layer: 0
   m_Name: Victory Cube
   m_TagString: Untagged
@@ -5175,6 +5176,29 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!136 &5875105983950301818
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288377573669459939}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4288871538223642250
 GameObject:
   m_ObjectHideFlags: 0

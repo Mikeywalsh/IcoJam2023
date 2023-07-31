@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
         {
             case GroundedState.GROUNDED:
                 // If grounded, set speed to essentially 0 (still needs to be higher or the player floats and causes weird collider issues)
-                VerticalSpeed = -PlayerMovementSettings.GravityStrength;
+                VerticalSpeed = -0.1f;
                 _secondJumpAvailable = false;
                 _airborneDashAvailable = true;
                 break;

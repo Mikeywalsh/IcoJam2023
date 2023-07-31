@@ -19,4 +19,15 @@ public class VictoryCube : MonoBehaviour
         var anglesThisFrame = Random.Range(2f, 4f);
         CubeModel.Rotate(_rotateAxis, anglesThisFrame);
     }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<PresentPlayerTemporal>() == null)
+        {
+            return;
+        }
+        
+        AudioManager.Play("cube-collect");
+        LevelLoaderManager.MoveToNextLevel();
+    }
 }

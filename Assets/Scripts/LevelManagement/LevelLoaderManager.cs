@@ -53,6 +53,8 @@ public class LevelLoaderManager : MonoBehaviour
         var uiManager = FindObjectOfType<GameUIManager>();
         uiManager.HideReminderText();
         
+        
+        AudioManager.Stop("countdown");
         Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, false));
     }
     
@@ -70,9 +72,8 @@ public class LevelLoaderManager : MonoBehaviour
     private IEnumerator StartLevelExit(int sceneId, bool levelCompleted)
     {
         IsLevelLoaded = false;
-
+        
         OnStartedLevelExit();
-
         yield return LoadingScreenManager.Instance.StartFadeTransition();
         
         // Hack - I DONT CARE
