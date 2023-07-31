@@ -123,11 +123,12 @@ public class TemporalManager : MonoBehaviour
         {
             return;
         }
-        
+
         Time.timeScale = 1;
         _reversing = true;
         _currentFrame -= 1;
         _frameAtReset = _currentFrame;
+        AudioManager.Play("rewind");
         
         foreach (var temporal in _allTemporals)
         {
@@ -135,7 +136,7 @@ public class TemporalManager : MonoBehaviour
         }
 
         _presentPlayer.GetComponent<PlayerController>().DisableInputAndAnimations();
-        var timeToReverse = 2f;
+        var timeToReverse = 2.5f;
         
         _cameraControl.OnLevelReverse(timeToReverse);
         DOTween.To(() => _currentFrame, x => _currentFrame = x, 0, timeToReverse)
@@ -147,7 +148,7 @@ public class TemporalManager : MonoBehaviour
                 }
             })
             .SetEase(Ease.OutQuad)
-            .SetDelay(0.4f)
+            .SetDelay(0.7f)
             .OnComplete(OnReverseFinished);
     }
 }

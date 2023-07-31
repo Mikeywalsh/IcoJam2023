@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
         _animationController.Dash();
         _dashDirection = new Vector3(_facingDirection.x, 0, _facingDirection.y);
         _lastDashTime = Time.time;
+        AudioManager.Play("dash");
         if (GroundedState == GroundedState.AIRBORNE)
         {
             _airborneDashAvailable = false;
