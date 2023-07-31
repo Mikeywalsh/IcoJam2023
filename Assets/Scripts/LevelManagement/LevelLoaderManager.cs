@@ -69,8 +69,15 @@ public class LevelLoaderManager : MonoBehaviour
         var gameUIManager = FindObjectOfType<GameUIManager>();
         gameUIManager.HideReminderText();
         gameUIManager.SecondsLeftText.gameObject.SetActive(false);
-        
-        CurrentLevelId++;
+
+        if (CurrentLevelId >= 5)
+        {
+            CurrentLevelId = 0;
+        }
+        else
+        {
+            CurrentLevelId++;
+        }
         Instance.StartCoroutine(Instance.StartLevelExit(CurrentLevelId, true));
     }
     
