@@ -49,6 +49,23 @@ public class InputActionsManager : MonoBehaviour
         {
             OnInputSchemeChanged(InputScheme.MOUSE_KEYBOARD);
         }
+        
+        
+    }
+
+    private void Start()
+    {
+        LevelLoaderManager.Instance.FinishedLoadingLevel += FinishedLoadingLevel;
+    }
+
+    private void FinishedLoadingLevel(object sender, EventArgs e)
+    {
+        OnInputSchemeChanged(CurrentInputScheme);
+    }
+
+    private void OnDestroy()
+    {
+        LevelLoaderManager.Instance.FinishedLoadingLevel -= FinishedLoadingLevel;
     }
 
     private void InputDeviceUsed(InputDevice device)
