@@ -46,6 +46,17 @@ public class GameUIManager : MonoBehaviour
     private void Update()
     {
         bool shouldDisplayRewindsLeft = LevelLoaderManager.Instance != null && LevelLoaderManager.Instance.IsLevelLoaded && LevelLoaderManager.CurrentLevelId != 0;
+
+        if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
+        {
+            RestartReminderText.text = "Press 'L' to restart";
+            RewindReminderText.text = "Press 'R' to rewind";
+        }
+        else
+        {
+            RestartReminderText.text = "Press 'B' to restart";
+            RewindReminderText.text = "Press 'Left Trigger' to rewind";
+        }
         
         RewindsLeftText.gameObject.SetActive(shouldDisplayRewindsLeft);
         RewindText.gameObject.SetActive(shouldDisplayRewindsLeft);
@@ -67,18 +78,7 @@ public class GameUIManager : MonoBehaviour
             SecondsLeftText.gameObject.SetActive(true);
             SecondsLeftText.text = "You died!";
         }
-        
-        if (InputActionsManager.CurrentInputScheme == InputScheme.MOUSE_KEYBOARD)
-        {
-            RestartReminderText.text = "Press 'L' to restart";
-            RewindReminderText.text = "Press 'R' to rewind";
-        }
-        else
-        {
-            RestartReminderText.text = "Press 'Left Trigger' to rewind";
-            RewindReminderText.text = "Press 'B' to restart";
-        }
-        
+
         RestartReminderText.gameObject.SetActive(true);
         RewindReminderText.gameObject.SetActive(LevelLoaderManager.CurrentLevelId != 0);
     }
