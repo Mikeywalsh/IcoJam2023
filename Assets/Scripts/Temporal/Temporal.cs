@@ -100,7 +100,7 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     protected virtual bool ShouldDisplayLockedIcon() => true;
 
-    public bool IsLocked() => LockedEnd > CurrentFrame;
+    public bool IsLocked() => LockedEnd >= CurrentFrame;
 
     public virtual void ResetTemporal()
     {
@@ -120,8 +120,11 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     public virtual void OnInteractedWith()
     {
-        if(!IsLocked())
+        if (!IsLocked())
+        {
             LockedEnd = CurrentFrame;
+            TemporalBuffer[CurrentFrame] = GetState();
+        }
     }
 
     public virtual T[] CopyBuffer()

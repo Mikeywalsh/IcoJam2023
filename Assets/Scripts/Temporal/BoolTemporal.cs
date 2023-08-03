@@ -26,37 +26,5 @@
         protected virtual void OnStateChanged()
         {
         }
-        
-        protected void TryTurnOn()
-        {
-            if (Reversing || IsLocked())
-            {
-                return;
-            }
-            if (!Triggered)
-            {
-                PlaySound(true);
-            }
-            Triggered = true;
-            OnStateChanged();
-            OnInteractedWith();
-        }
-
-        protected void TryTurnOff()
-        {
-            if (Reversing || IsLocked())
-            {
-                return;
-            }
-            Triggered = false;
-            OnStateChanged();
-            OnInteractedWith();
-            PlaySound(false);
-        }
-
-        protected void PlaySound(bool on)
-        {
-            AudioManager.Play(on ? "button-on" : "button-off");
-        }
     }
 }

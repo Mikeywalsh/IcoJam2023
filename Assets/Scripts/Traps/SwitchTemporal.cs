@@ -77,6 +77,16 @@ namespace Traps
             TryToggle();
         }
 
+        protected override void OnStateChanged()
+        {
+            base.OnStateChanged();
+            
+            if (!Reversing)
+            {
+                PlaySound(Triggered);
+            }
+        }
+
 
         protected override bool ShouldDisplayLockedIcon()
         {
@@ -89,10 +99,9 @@ namespace Traps
             {
                 return;
             }
-            _triggerCollider.enabled = false;
+            
             Triggered = !Triggered;
             OnStateChanged();
-            PlaySound(Triggered);
 
             _toggledFrame = CurrentFrame;
             // Toggle only works once, fill the rest of the buffer with current value
@@ -101,6 +110,11 @@ namespace Traps
             {
                 TemporalBuffer[i] = new BoolTemporalState(Triggered);
             }
+        }
+        
+        private void PlaySound(bool on)
+        {
+            AudioManager.Play(on ? "button-on" : "button-off");
         }
     }
 }

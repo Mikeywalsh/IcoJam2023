@@ -17,8 +17,7 @@ namespace Traps
         private Tween _buttonModelTween;
         public Material OnMaterial;
         public Material OffMaterial;
-        private bool _wasLockedLastFrame;
-        private readonly HashSet<GameObject> _standingObjects = new();
+        private readonly List<GameObject> _standingObjects = new();
         
         protected override void Start()
         {
@@ -26,19 +25,6 @@ namespace Traps
             _buttonHolderMeshRenderer = ButtonHolder.GetComponent<MeshRenderer>();
             _buttonHolderMaterials = _buttonHolderMeshRenderer.materials;
         }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-            
-            if (Triggered && _wasLockedLastFrame && _standingObjects.Count == 0)
-            {
-                TryTurnOff();
-            }
-
-            _wasLockedLastFrame = IsLocked();
-        }
-
         protected override void OnStateChanged()
         {
             base.OnStateChanged();
@@ -47,6 +33,21 @@ namespace Traps
             _buttonModelTween = ButtonModel.transform.DOLocalMoveZ(Triggered ? -0.00178f : 0f, 0.2f);
             _buttonHolderMaterials[_indicatorMaterialIndex] = Triggered ? OnMaterial : OffMaterial;
             _buttonHolderMeshRenderer.materials = _buttonHolderMaterials;
+
+            if (!Reversing)
+            {
+                PlaySound(Triggered);
+            }
+        }
+        
+        public override void StartedReversing()
+        {
+            base.StartedReversing();
+
+            if (_standingObjects.Count == 1 && _standingObjects[0].GetComponent<PlayerTemporal>())
+            {
+                TryTurnOff();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -60,17 +61,7 @@ namespace Traps
             
             TryTurnOn();
         }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.GetComponent<ITemporal>() == null)
-            {
-                return;
-            }
-            
-            TryTurnOn();
-        }
-
+        
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.GetComponent<ITemporal>() == null)
@@ -84,6 +75,33 @@ namespace Traps
             {
                 TryTurnOff();
             }
+        }
+
+        private void TryTurnOn()
+        {
+            if (Reversing || IsLocked())
+            {
+                return;
+            }
+            Triggered = true;
+            OnStateChanged();
+            OnInteractedWith();
+        }
+
+        private void TryTurnOff()
+        {
+            if (Reversing || IsLocked() || _standingObjects.Count != 0)
+            {
+                return;
+            }
+            Triggered = false;
+            OnStateChanged();
+            OnInteractedWith();
+        }
+
+        private void PlaySound(bool on)
+        {
+            AudioManager.Play(on ? "button-on" : "button-off");
         }
     }
 }
