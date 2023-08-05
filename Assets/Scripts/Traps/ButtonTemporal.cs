@@ -62,6 +62,18 @@ namespace Traps
             TryTurnOn();
         }
         
+        
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.GetComponent<ITemporal>() == null)
+            {
+                return;
+            }
+
+            TryTurnOn();
+        }
+
+        
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.GetComponent<ITemporal>() == null)
@@ -83,9 +95,15 @@ namespace Traps
             {
                 return;
             }
+
+            var wasOn = Triggered;
+            
             Triggered = true;
-            OnStateChanged();
             OnInteractedWith();
+            if (!wasOn)
+            {
+                OnStateChanged();
+            }
         }
 
         private void TryTurnOff()
@@ -95,8 +113,8 @@ namespace Traps
                 return;
             }
             Triggered = false;
-            OnStateChanged();
             OnInteractedWith();
+            OnStateChanged();
         }
 
         private void PlaySound(bool on)

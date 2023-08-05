@@ -98,7 +98,8 @@ public abstract class Temporal<T> : MonoBehaviour, ITemporal where T : TemporalS
 
     protected virtual bool ShouldDisplayInformationText() => true;
 
-    protected virtual bool ShouldDisplayLockedIcon() => true;
+    // Execution order puts TemporalManager at the end, so CurrentFrame is updated after Temporal fixed update
+    protected virtual bool ShouldDisplayLockedIcon() => LockedEnd > CurrentFrame;
 
     public bool IsLocked() => LockedEnd >= CurrentFrame;
 
